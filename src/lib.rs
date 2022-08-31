@@ -1,5 +1,5 @@
 #![cfg_attr(rustc_1_6, no_std)]
-#![doc(html_root_url = "https://docs.rs/claim/0.5.0")]
+#![doc(html_root_url = "https://docs.rs/claims/0.6.0")]
 #![allow(unknown_lints, unused_extern_crates)]
 #![forbid(
     rust_2018_idioms,
@@ -27,7 +27,7 @@
 //!
 //! ## `#![no_std]` support
 //!
-//! `claim` can be used in a `no-std` environments too.
+//! `claims` can be used in a `no-std` environments too.
 //!
 //! ## Available macros
 //!

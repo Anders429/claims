@@ -13,7 +13,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let res: Result<i32, ()> = Err(());
 ///
@@ -27,7 +27,7 @@
 /// `Ok(T)` variant will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let res: Result<i32, ()> = Ok(42);
 ///

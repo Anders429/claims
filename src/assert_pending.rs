@@ -15,7 +15,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<i32> = Poll::Pending;
@@ -30,7 +30,7 @@
 /// [`Poll::Pending`] variant will also be returned from this macro call:
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<i32> = Poll::Pending;
@@ -43,7 +43,7 @@
 /// [`Poll::Ready(T)`] variant will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res = Poll::Ready(42);

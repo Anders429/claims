@@ -15,7 +15,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// assert_lt!(1, 2);
 ///
@@ -25,7 +25,7 @@
 /// ```
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// assert_lt!(5, 5);  // Will panic
 /// assert_lt!(6, 5);

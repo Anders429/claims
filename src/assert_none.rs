@@ -13,7 +13,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let maybe: Option<i32> = None;
 ///
@@ -28,7 +28,7 @@
 /// `Some(T)` variant will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let maybe = Some(42i32);
 ///

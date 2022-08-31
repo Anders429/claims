@@ -15,7 +15,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # #[cfg(feature = "std")] extern crate std as core;
 /// # use std::task::Poll;
 /// # fn main() {
@@ -28,7 +28,7 @@
 /// Value of `E` type from the `Poll::Ready(Err(E))` will also be returned from this macro call:
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, String>> = Poll::Ready(Err("Something went wrong".to_string()));
@@ -41,7 +41,7 @@
 /// Both `Poll::Ready(Ok(..))` and [`Poll::Pending`] variants will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Ready(Ok(42));
@@ -51,7 +51,7 @@
 /// ```
 
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Pending;

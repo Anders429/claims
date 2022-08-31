@@ -18,7 +18,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let foo = 'f';
 /// assert_matches!(foo, 'A'..='Z' | 'a'..='z');
@@ -29,7 +29,7 @@
 /// ```
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let bar: Option<i32> = None;
 /// assert_matches!(bar, Some(x) if x > 2);  // Will panic

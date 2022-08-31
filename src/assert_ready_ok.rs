@@ -15,7 +15,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Ready(Ok(42));
@@ -27,7 +27,7 @@
 /// Value of `T` type from the `Poll::Ready(Ok(T))` will also be returned from this macro call:
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Ready(Ok(42));
@@ -40,7 +40,7 @@
 /// Both `Poll::Ready(Err(..))` and [`Poll::Pending`] variants will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Ready(Err(()));
@@ -50,7 +50,7 @@
 /// ```
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
 /// # fn main() {
 /// let res: Poll<Result<i32, ()>> = Poll::Pending;

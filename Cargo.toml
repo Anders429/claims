@@ -1,20 +1,20 @@
 [package]
-name = "claim"
+name = "claims"
 description = "Assertion macros"
-version = "0.5.0"
-authors = ["svartalf <self@svartalf.info>"]
+version = "0.6.0"
+authors = ["svartalf <self@svartalf.info>", "mattwilkinsonn <mattwilki17@gmail.com>"]
 license = "Apache-2.0 OR MIT"
 categories = ["development-tools", "development-tools::testing", "no-std"]
 keywords = ["assert", "test", "testing"]
-homepage = "https://github.com/svartalf/rust-claim"
-repository = "https://github.com/svartalf/rust-claim"
+homepage = "https://github.com/mattwilkinsonn/rust-claims"
+repository = "https://github.com/mattwilkinsonn/rust-claims"
 readme = "README.md"
 build = "build.rs"
-documentation = "https://docs.rs/claim/0.4.0"
+documentation = "https://docs.rs/claims/0.6.0"
 
 [badges]
 maintenance = { status = "actively-developed" }
-github-actions = { repository = "svartalf/rust-claim", workflow = "Continuous integration" }
+github-actions = { repository = "mattwilkinsonn/rust-claims", workflow = "Continuous integration" }
 
 [build-dependencies]
 autocfg = "1.0"
