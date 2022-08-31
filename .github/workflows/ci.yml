@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
 
 name: Continuous integration
 
@@ -11,14 +14,14 @@ jobs:
       matrix:
         toolchain:
           - 1.0.0
-          - 1.6.0  # no-std was experimental
+          - 1.6.0 # no-std was experimental
           - 1.10.0
           - 1.15.0
           - 1.20.0
           - 1.25.0
-          - 1.26.0  # assert_matches! min compat version
-          - 1.30.0  # edition2018 was experimental
-          - 1.31.0  # edition2018
+          - 1.26.0 # assert_matches! min compat version
+          - 1.30.0 # edition2018 was experimental
+          - 1.31.0 # edition2018
           - 1.36.0
           - 1.37.0
           - 1.40.0
@@ -62,10 +65,10 @@ jobs:
           - beta
           - nightly
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: ${{ matrix.rust }}
-        target: thumbv6m-none-eabi
-        override: true
-    - run: cargo build --target thumbv6m-none-eabi --verbose
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          target: thumbv6m-none-eabi
+          override: true
+      - run: cargo build --target thumbv6m-none-eabi --verbose
