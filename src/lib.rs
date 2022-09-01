@@ -1,5 +1,5 @@
 #![cfg_attr(rustc_1_6, no_std)]
-#![doc(html_root_url = "https://docs.rs/claims/0.7.0")]
+#![doc(html_root_url = "https://docs.rs/claims/0.7.1")]
 #![allow(unknown_lints, unused_extern_crates)]
 #![forbid(
     rust_2018_idioms,
