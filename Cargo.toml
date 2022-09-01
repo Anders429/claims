@@ -10,7 +10,7 @@ homepage = "https://github.com/mattwilkinsonn/rust-claims"
 repository = "https://github.com/mattwilkinsonn/rust-claims"
 readme = "README.md"
 build = "build.rs"
-documentation = "https://docs.rs/claims/0.6.0"
+documentation = "https://docs.rs/claims/0.7.0"
 
 [badges]
 maintenance = { status = "actively-developed" }

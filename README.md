@@ -26,7 +26,7 @@ to use this crate for tests, examples and benchmarks:
 
 ```toml
 [dev-dependencies]
-claims = "0.6"
+claims = "0.7"
 ```
 
 ## Usage
