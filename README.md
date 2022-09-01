@@ -15,7 +15,7 @@ This crate provides assertion macros that are missing in the Rust `libcore` / `l
 
 * Comparison: `assert_ge`, `assert_gt`, `assert_le`, and `assert_lt`
 * Matching: `assert_matches`
-* `Result`: `assert_ok`, `assert_err`, and `assert_ok_eq`
+* `Result`: `assert_ok`, `assert_err`, `assert_ok_eq`, and `assert_err_eq`
 * `Option`: `assert_some`, `assert_none`, and `assert_some_eq`
 * `Poll`: `assert_pending`, `assert_ready`, `assert_ready_ok`, `assert_ready_err`, and `assert_ready_eq`
 
