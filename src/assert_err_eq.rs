@@ -14,7 +14,7 @@
 /// ## Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let res: Result<(), i32> = Err(1);
 ///
@@ -28,7 +28,7 @@
 /// Value of `E` type from `Err(E)` will be returned from the macro call:
 ///
 /// ```rust
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let res: Result<(), i32> = Err(1);
 ///
@@ -40,7 +40,7 @@
 /// `Ok(..)` variant will cause panic:
 ///
 /// ```rust,should_panic
-/// # #[macro_use] extern crate claim;
+/// # #[macro_use] extern crate claims;
 /// # fn main() {
 /// let res: Result<(), i32> = Ok(());
 ///
