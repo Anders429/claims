@@ -70,7 +70,14 @@ macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Err(t) => {
-                assert_eq!(t, $expected, $($arg)+);
+                #[cfg(rustc_1_11)]
+                {
+                    assert_eq!(t, $expected, $($arg)+);
+                }
+                #[cfg(not(rustc_1_11))]
+                {
+                    assert_eq!(t, $expected);
+                }
                 t
             },
             ok @ Ok(..) => {
@@ -101,6 +108,7 @@ macro_rules! debug_assert_err_eq {
 #[cfg(test)]
 mod tests {
     #[test]
+    #[cfg_attr(not(rustc_1_11), ignore = "custom message propagation is only available in rustc 1.11.0 or later")]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
         let _ = assert_err_eq!(Err::<(), _>(1), 2, "foo");

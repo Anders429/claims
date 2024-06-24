@@ -8,6 +8,9 @@ fn main() {
     // Needed to enable `#![no_std]` only on rustc versions that support it (rustc 1.6.0 and up).
     cfg.emit_rustc_version(1, 6);
 
+    // Needed to enable custom error message propagation to `assert_eq`.
+    cfg.emit_rustc_version(1, 11);
+
     // Needed for `assert_matches!`' minimum rust version.
     cfg.emit_rustc_version(1, 26);
 
