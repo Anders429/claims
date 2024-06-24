@@ -71,13 +71,9 @@ macro_rules! assert_ok_eq {
         match $cond {
             Ok(t) => {
                 #[cfg(rustc_1_11)]
-                {
-                    assert_eq!(t, $expected, $($arg)+);
-                }
+                assert_eq!(t, $expected, $($arg)+);
                 #[cfg(not(rustc_1_11))]
-                {
-                    assert_eq!(t, $expected);
-                }
+                assert_eq!(t, $expected);
                 t
             },
             e @ Err(..) => {
