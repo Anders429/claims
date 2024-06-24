@@ -58,7 +58,7 @@ macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Some(t) => {
-                assert_eq!(t, $expected);
+                assert_eq!(t, $expected, $($arg)+);
                 t
             },
             None => {
@@ -84,4 +84,15 @@ macro_rules! assert_some_eq {
 #[macro_export]
 macro_rules! debug_assert_some_eq {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_some_eq!($($arg)*); })
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::assert_some_eq;
+
+    #[test]
+    #[should_panic(expected = "foo")]
+    fn custom_message_propagation() {
+        let _ = assert_some_eq!(Some(1), 2, "foo");
+    }
 }

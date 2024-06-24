@@ -70,7 +70,7 @@ macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Err(t) => {
-                assert_eq!(t, $expected);
+                assert_eq!(t, $expected, $($arg)+);
                 t
             },
             ok @ Ok(..) => {
@@ -96,4 +96,15 @@ macro_rules! assert_err_eq {
 #[macro_export]
 macro_rules! debug_assert_err_eq {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_err_eq!($($arg)*); })
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::assert_err_eq;
+
+    #[test]
+    #[should_panic(expected = "foo")]
+    fn custom_message_propagation() {
+        let _ = assert_err_eq!(Err::<(), _>(1), 2, "foo");
+    }
 }
