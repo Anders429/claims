@@ -72,6 +72,7 @@ macro_rules! assert_ok_eq {
         match $cond {
             Ok(t) => {
                 assert_eq!(t, $expected, $($arg)+);
+                t
             },
             e @ Err(..) => {
                 panic!("assertion failed, expected Ok(..), got {:?}: {}", e, format_args!($($arg)+));
