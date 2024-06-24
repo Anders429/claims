@@ -102,6 +102,7 @@ macro_rules! debug_assert_ok_eq {
 }
 
 #[cfg(test)]
+#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
     #[cfg_attr(not(rustc_1_11), ignore = "custom message propagation is only available in rustc 1.11.0 or later")]
