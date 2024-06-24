@@ -51,6 +51,7 @@
 /// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_ok_eq!`]: ./macro.debug_assert_ok_eq.html
+#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_ok_eq {
     ($cond:expr, $expected:expr,) => {
@@ -70,9 +71,35 @@ macro_rules! assert_ok_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Ok(t) => {
-                #[cfg(rustc_1_11)]
                 assert_eq!(t, $expected, $($arg)+);
-                #[cfg(not(rustc_1_11))]
+            },
+            e @ Err(..) => {
+                panic!("assertion failed, expected Ok(..), got {:?}: {}", e, format_args!($($arg)+));
+            }
+        }
+    };
+}
+
+#[cfg(not(rustc_1_11))]
+#[macro_export]
+macro_rules! assert_ok_eq {
+    ($cond:expr, $expected:expr,) => {
+        $crate::assert_ok_eq!($cond, $expected);
+    };
+    ($cond:expr, $expected:expr) => {
+        match $cond {
+            Ok(t) => {
+                assert_eq!(t, $expected);
+                t
+            },
+            e @ Err(..) => {
+                panic!("assertion failed, expected Ok(..), got {:?}", e);
+            }
+        }
+    };
+    ($cond:expr, $expected:expr, $($arg:tt)+) => {
+        match $cond {
+            Ok(t) => {
                 assert_eq!(t, $expected);
                 t
             },

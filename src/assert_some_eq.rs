@@ -39,6 +39,7 @@
 /// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_some_eq!`]: ./macro.debug_assert_some_eq.html
+#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr,) => {
@@ -58,9 +59,36 @@ macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Some(t) => {
-                #[cfg(rustc_1_11)]
                 assert_eq!(t, $expected, $($arg)+);
-                #[cfg(not(rustc_1_11))]
+                t
+            },
+            None => {
+                panic!("assertion failed, expected Some(..), got None: {}", format_args!($($arg)+));
+            }
+        }
+    };
+}
+
+#[cfg(not(rustc_1_11))]
+#[macro_export]
+macro_rules! assert_some_eq {
+    ($cond:expr, $expected:expr,) => {
+        $crate::assert_some_eq!($cond, $expected);
+    };
+    ($cond:expr, $expected:expr) => {
+        match $cond {
+            Some(t) => {
+                assert_eq!(t, $expected);
+                t
+            },
+            None => {
+                panic!("assertion failed, expected Some(..), got None");
+            }
+        }
+    };
+    ($cond:expr, $expected:expr, $($arg:tt)+) => {
+        match $cond {
+            Some(t) => {
                 assert_eq!(t, $expected);
                 t
             },

@@ -51,6 +51,7 @@
 /// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_err_eq!`]: ./macro.debug_assert_err_eq.html
+#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr,) => {
@@ -70,9 +71,36 @@ macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
             Err(t) => {
-                #[cfg(rustc_1_11)]
                 assert_eq!(t, $expected, $($arg)+);
-                #[cfg(not(rustc_1_11))]
+                t
+            },
+            ok @ Ok(..) => {
+                panic!("assertion failed, expected Err(..), got {:?}: {}", ok, format_args!($($arg)+));
+            }
+        }
+    };
+}
+
+#[cfg(not(rustc_1_11))]
+#[macro_export]
+macro_rules! assert_err_eq {
+    ($cond:expr, $expected:expr,) => {
+        $crate::assert_err_eq!($cond, $expected);
+    };
+    ($cond:expr, $expected:expr) => {
+        match $cond {
+            Err(t) => {
+                assert_eq!(t, $expected);
+                t
+            },
+            ok @ Ok(..) => {
+                panic!("assertion failed, expected Err(..), got {:?}", ok);
+            }
+        }
+    };
+    ($cond:expr, $expected:expr, $($arg:tt)+) => {
+        match $cond {
+            Err(t) => {
                 assert_eq!(t, $expected);
                 t
             },
