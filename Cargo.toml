@@ -18,3 +18,6 @@ github-actions = { repository = "mattwilkinsonn/rust-claims", workflow = "Contin
 
 [build-dependencies]
 autocfg = "1.0"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(has_task_poll)", "cfg(has_private_in_public_issue)", "cfg(rustc_1_6)", "cfg(rustc_1_26)"] }

@@ -88,8 +88,6 @@ macro_rules! debug_assert_some_eq {
 
 #[cfg(test)]
 mod tests {
-    use crate::assert_some_eq;
-
     #[test]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
