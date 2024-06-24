@@ -93,7 +93,10 @@ macro_rules! debug_assert_some_eq {
 #[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
-    #[cfg_attr(not(rustc_1_11), ignore = "custom message propagation is only available in rustc 1.11.0 or later")]
+    #[cfg_attr(
+        not(rustc_1_11),
+        ignore = "custom message propagation is only available in rustc 1.11.0 or later"
+    )]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
         let _ = assert_some_eq!(Some(1), 2, "foo");
