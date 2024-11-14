@@ -1,6 +1,5 @@
-/// Asserts that expression returns [`Poll::Ready(Ok(T))`] variant.
-///
-/// This macro is available for Rust 1.36+.
+/// Asserts that the expression matches a [`Poll::Ready(Ok(_))`] variant, returning the contained
+/// value.
 ///
 /// ## Uses
 ///
@@ -9,8 +8,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -24,7 +23,7 @@
 /// # }
 /// ```
 ///
-/// Value of `T` type from the `Poll::Ready(Ok(T))` will also be returned from this macro call:
+/// The contained value will also be returned from this macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -37,7 +36,7 @@
 /// # }
 /// ```
 ///
-/// Both `Poll::Ready(Err(..))` and [`Poll::Pending`] variants will cause panic:
+/// Both `Poll::Ready(Err(..))` and [`Poll::Pending`] variants will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -62,7 +61,7 @@
 /// [`Poll::Ready(Ok(T))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_ready_ok!`]: ./macro.debug_assert_ready_ok.html
+/// [`debug_assert_ready_ok!`]: crate::debug_assert_ready_ok
 #[macro_export]
 macro_rules! assert_ready_ok {
     ($cond:expr,) => {
@@ -86,19 +85,12 @@ macro_rules! assert_ready_ok {
     };
 }
 
-/// Asserts that expression returns [`Poll::Ready(Ok(T))`] variant in runtime.
+/// Asserts that the expression matches a [`Poll::Ready(Ok(_))`] variant on debug builds.
 ///
-/// Like [`assert_ready_ok!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_ready_ok!`] on debug builds, although it does not
+/// return the value contained in the `Poll::Ready(Ok(_))` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Poll::Ready(Ok(T))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_ready_ok!`]: ./macro.assert_ready_ok.html
+/// [`Poll::Ready(Ok(_))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 #[macro_export]
 macro_rules! debug_assert_ready_ok {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_ok!($($arg)*); })

@@ -1,4 +1,4 @@
-/// Asserts that expression returns [`Err(E)`] variant.
+/// Asserts that the expression matches an [`Err(_)`] variant, returning the contained value.
 ///
 /// ## Uses
 ///
@@ -19,12 +19,12 @@
 ///
 /// assert_err!(res);
 ///
-/// // With custom messages
+/// // With a custom message.
 /// assert_err!(res, "we are checking if there was an error with {:?}", res);
 /// # }
 /// ```
 ///
-/// `Ok(T)` variant will cause panic:
+/// An `Ok(_)` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -36,8 +36,8 @@
 /// ```
 ///
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
-/// [`debug_assert_err!`]: ./macro.debug_assert_err.html
+/// [`Err(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
+/// [`debug_assert_err!`]: crate::debug_assert_err!
 #[macro_export]
 macro_rules! assert_err {
     ($cond:expr,) => {
@@ -61,19 +61,12 @@ macro_rules! assert_err {
     };
 }
 
-/// Asserts that expression returns [`Err(E)`] variant in runtime.
+/// Asserts that the expression matches an [`Err(_)`] variant in debug builds.
 ///
-/// Like [`assert_err!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_err!`] on debug builds, although it does not
+/// return the value contained in the `Err` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_err!`]: ./macro.assert_err.html
+/// [`Err(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 #[macro_export]
 macro_rules! debug_assert_err {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_err!($($arg)*); })

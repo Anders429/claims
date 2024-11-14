@@ -2,79 +2,58 @@
 
 //! Additional assertion macros for testing.
 //!
-//! ## `#![no_std]` support
-//!
-//! `claims` can be used in a `no-std` environments too.
-//!
 //! ## Available macros
 //!
-//! Note that same to [`core`]/[`std`] macros,
-//! all macros in this crate has the [`debug_*`](#macros) counterparts.
+//! Note that, like [`core`]/[`std`] macros, all macros in this crate have [`debug_*`](#macros)
+//! counterparts.
 //!
 //! ### Comparison
 //!
 //! Assertions similar to [`assert_eq`] or [`assert_ne`]:
 //!
-//! * [`assert_ge`]
-//! * [`assert_gt`]
-//! * [`assert_le`]
-//! * [`assert_lt`]
+//! * [`assert_ge!`]
+//! * [`assert_gt!`]
+//! * [`assert_le!`]
+//! * [`assert_lt!`]
 //!
 //! ### Matching
 //!
-//! * [`assert_matches`]
+//! * [`assert_matches!`]
 //!
 //! ### `Result` macros
 //!
 //! Assertions for [`Result`] variants:
 //!
-//! * [`assert_ok`]
-//! * [`assert_err`]
-//! * [`assert_ok_eq`]
-//! * [`assert_err_eq`]
+//! * [`assert_ok!`]
+//! * [`assert_err!`]
+//! * [`assert_ok_eq!`]
+//! * [`assert_err_eq!`]
 //!
 //! ### `Option` macros
 //!
 //! Assertions for [`Option`] variants:
 //!
-//! * [`assert_some`]
-//! * [`assert_none`]
-//! * [`assert_some_eq`]
+//! * [`assert_some!`]
+//! * [`assert_none!`]
+//! * [`assert_some_eq!`]
 //!
 //! ### `Poll` macros
 //!
 //! Assertions for [`Poll`] variants:
 //!
-//! * [`assert_ready`]
-//! * [`assert_ready_ok`]
-//! * [`assert_ready_err`]
-//! * [`assert_ready_pending`]
-//! * [`assert_ready_eq`]
+//! * [`assert_pending!`]
+//! * [`assert_ready!`]
+//! * [`assert_ready_ok!`]
+//! * [`assert_ready_err!`]
+//! * [`assert_ready_eq!`]
 //!
 //! [`core`]: https://doc.rust-lang.org/stable/core/#macros
 //! [`std`]: https://doc.rust-lang.org/stable/std/#macros
 //! [`Option`]: https://doc.rust-lang.org/core/option/enum.Option.html
 //! [`Result`]: https://doc.rust-lang.org/core/result/enum.Result.html
 //! [`Poll`]: https://doc.rust-lang.org/core/task/enum.Poll.html
-//! [`assert_eq`]: https://doc.rust-lang.org/std/macro.assert_eq.html
-//! [`assert_ne`]: https://doc.rust-lang.org/std/macro.assert_ne.html
-//! [`assert_ge`]: ./macro.assert_ge.html
-//! [`assert_gt`]: ./macro.assert_gt.html
-//! [`assert_le`]: ./macro.assert_le.html
-//! [`assert_lt`]: ./macro.assert_lt.html
-//! [`assert_some`]: ./macro.assert_some.html
-//! [`assert_none`]: ./macro.assert_none.html
-//! [`assert_some_eq`]: ./macro.assert_some_eq.html
-//! [`assert_ok`]: ./macro.assert_ok.html
-//! [`assert_err`]: ./macro.assert_err.html
-//! [`assert_ok_eq`]: ./macro.assert_ok_eq.html
-//! [`assert_err_eq`]: ./macro.assert_err_eq.html
-//! [`assert_ready`]: ./macro.assert_ready.html
-//! [`assert_ready_ok`]: ./macro.assert_ready_ok.html
-//! [`assert_ready_err`]: ./macro.assert_ready_err.html
-//! [`assert_ready_pending`]: ./macro.assert_ready_pending.html
-//! [`assert_ready_eq`]: ./macro.assert_ready_eq.html
-//! [`assert_matches`]: ./macro.assert_matches.html
+//! [`assert_eq`]: https://doc.rust-lang.org/core/macro.assert_eq.html
+//! [`assert_ne`]: https://doc.rust-lang.org/core/macro.assert_ne.html
 
 mod assert_err;
 mod assert_err_eq;

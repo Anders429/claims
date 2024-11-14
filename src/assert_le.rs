@@ -1,16 +1,16 @@
-/// Asserts that first expression is less or equal than the second.
+/// Asserts that the first expression is less or equal than the second.
 ///
 /// Requires that both expressions be comparable with `<=`.
 ///
 /// ## Uses
 ///
 /// Assertions are always checked in both debug and release builds, and cannot be disabled.
-/// See [`debug_assert_le`] for assertions that are not enabled in release builds by default.
+/// See [`debug_assert_le!`] for assertions that are not enabled in release builds by default.
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -19,7 +19,7 @@
 /// # fn main() {
 /// assert_le!(1, 2);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_le!(5, 5, "Expecting that {} is less or equal than {}", 5, 5);
 /// # }
 /// ```
@@ -29,13 +29,13 @@
 /// # fn main() {
 /// assert_le!(6, 5);  // Will panic
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_le!(6, 5, "Not expecting {} to be less or equal than {}", 6, 5);
 /// # }
 /// ```
 ///
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_le!`]: ./macro.debug_assert_le.html
+/// [`debug_assert_le!`]: crate::debug_assert_le!
 #[macro_export]
 macro_rules! assert_le {
     ($left:expr, $right:expr) => {
@@ -71,18 +71,9 @@ macro_rules! assert_le {
     };
 }
 
-/// Asserts that first expression is less or equal than the second in runtime.
+/// Asserts that the first expression is less or equal than the second on debug builds.
 ///
-/// Like [`assert_le!`], this macro also has a second version,
-/// where a custom panic message can be provided.
-///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_le!`]: ./macro.assert_le.html
+/// This macro behaves the same as [`assert_le!`] on debug builds. On release builds it is a no-op.
 #[macro_export]
 macro_rules! debug_assert_le {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_le!($($arg)*); })

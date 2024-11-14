@@ -1,7 +1,5 @@
-/// Asserts that left expression returns [`Poll::Ready(T)`] variant
-/// and its value of `T` type equals to the right expression.
-///
-/// This macro is available for Rust 1.36+.
+/// Asserts that the left expression contains a [`Poll::Ready(T)`] variant and its contained value of type
+/// `T` equals the right expression.
 ///
 /// ## Uses
 ///
@@ -10,8 +8,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -25,7 +23,7 @@
 /// # }
 /// ```
 ///
-/// Value of `T` type from the `Poll::Ready(T)` will also be returned from this macro call:
+/// The contained value will also be returned from this macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -38,7 +36,7 @@
 /// # }
 /// ```
 ///
-/// [`Poll::Pending`] variant will cause panic:
+/// A [`Poll::Pending`] variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -53,7 +51,7 @@
 /// [`Poll::Ready(Ok(T))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_ready_eq!`]: ./macro.debug_assert_ready_eq.html
+/// [`debug_assert_ready_eq!`]: crate::debug_assert_ready_eq!
 #[macro_export]
 macro_rules! assert_ready_eq {
     ($cond:expr, $expected:expr,) => {
@@ -83,21 +81,14 @@ macro_rules! assert_ready_eq {
     };
 }
 
-/// Asserts that left expression returns [`Poll::Ready(T)`] variant
-/// and its value of `T` type equals to the right expression in runtime.
+/// Asserts that the left expression contains a [`Poll::Ready(T)`] variant and its contained value of type
+/// `T` equals the right expression on debug builds.
 ///
-/// Like [`assert_ready_eq!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_ready_eq!`] on debug builds, although it does not
+/// return the value contained in the `Poll::Ready` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Poll::Ready(Ok(T))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_ready_eq!`]: ./macro.assert_ready_eq.html
+/// [`Poll::Ready(T)`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 #[macro_export]
-macro_rules! debug_assert_ready_ok_eq {
+macro_rules! debug_assert_ready_eq {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_eq!($($arg)*); })
 }

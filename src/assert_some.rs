@@ -1,4 +1,4 @@
-/// Asserts that expression returns [`Some(T)`] variant.
+/// Asserts that the expression matches a [`Some(_)`] variant, returning the contained value.
 ///
 /// ## Uses
 ///
@@ -7,8 +7,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -19,12 +19,12 @@
 ///
 /// assert_some!(maybe);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_some!(maybe, "Found it at {:?}", maybe);
 /// # }
 /// ```
 ///
-/// `None` variant will cause panic:
+/// A `None` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -35,9 +35,9 @@
 /// # }
 /// ```
 ///
-/// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
+/// [`Some(_)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_some!`]: ./macro.debug_assert_some.html
+/// [`debug_assert_some!`]: crate::debug_assert_some!
 #[macro_export]
 macro_rules! assert_some {
     ($cond:expr,) => {
@@ -61,19 +61,12 @@ macro_rules! assert_some {
     };
 }
 
-/// Asserts that expression returns [`Some(T)`] variant in runtime.
+/// Asserts that the expression matches a [`Some(_)`] variant on debug builds.
 ///
-/// Like [`assert_some!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_some!`] on debug builds, although it does not
+/// return the value contained in the `Some` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_some!`]: ./macro.assert_some.html
+/// [`Some(_)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 #[macro_export]
 macro_rules! debug_assert_some {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_some!($($arg)*); })

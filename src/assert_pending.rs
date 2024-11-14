@@ -1,6 +1,4 @@
-/// Asserts that expression returns [`Poll::Pending`] variant.
-///
-/// This macro is available for Rust 1.36+.
+/// Asserts that the expression matches a [`Poll::Pending`] variant.
 ///
 /// ## Uses
 ///
@@ -9,8 +7,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -22,12 +20,12 @@
 ///
 /// assert_pending!(res);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_pending!(res, "Future is not ready yet");
 /// # }
 /// ```
 ///
-/// [`Poll::Pending`] variant will also be returned from this macro call:
+/// A [`Poll::Pending`] variant will also be returned from this macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -40,7 +38,7 @@
 /// # }
 /// ```
 ///
-/// [`Poll::Ready(T)`] variant will cause panic:
+/// A [`Poll::Ready(_)`] variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -52,10 +50,10 @@
 /// # }
 /// ```
 ///
-/// [`Poll::Ready(T)`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
+/// [`Poll::Ready(_)`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_pending!`]: ./macro.debug_assert_pending.html
+/// [`debug_assert_pending!`]: crate::debug_assert_pending!
 #[macro_export]
 macro_rules! assert_pending {
     ($cond:expr,) => {
@@ -79,21 +77,12 @@ macro_rules! assert_pending {
     };
 }
 
-/// Asserts that expression returns [`Poll::Pending`] variant in runtime.
+/// Asserts that the expression matches a [`Poll::Pending`] variant on debug builds.
 ///
-/// This macro is available for Rust 1.36+.
-///
-/// Like [`assert_pending!`], this macro also has a second version,
-/// where a custom panic message can be provided.
-///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
+/// This macro behaves the same as [`assert_pending!`] on debug builds. On release builds it is a
+/// no-op.
 ///
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_pending!`]: ./macro.assert_pending.html
 #[macro_export]
 macro_rules! debug_assert_pending {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_pending!($($arg)*); })

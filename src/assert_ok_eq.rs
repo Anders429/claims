@@ -1,5 +1,5 @@
-/// Asserts that expression returns [`Ok(T)`] variant
-/// and its value of `T` type equals to the right expression.
+/// Asserts that the left expression contains an [`Ok(T)`] variant and its contained value of type
+/// `T` equals the right expression.
 ///
 /// ## Uses
 ///
@@ -8,8 +8,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -20,12 +20,12 @@
 ///
 /// assert_ok_eq!(res, 1);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_ok_eq!(res, 1, "Everything is good with {:?}", res);
 /// # }
 /// ```
 ///
-/// Value of `T` type from `Ok(T)` will be returned from the macro call:
+/// The contained value will be returned from the macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -37,7 +37,7 @@
 /// # }
 /// ```
 ///
-/// `Err(..)` variant will cause panic:
+/// An `Err(_)` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -50,7 +50,7 @@
 ///
 /// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_ok_eq!`]: ./macro.debug_assert_ok_eq.html
+/// [`debug_assert_ok_eq!`]: crate::debug_assert_ok_eq!
 #[macro_export]
 macro_rules! assert_ok_eq {
     ($cond:expr, $expected:expr,) => {
@@ -80,19 +80,13 @@ macro_rules! assert_ok_eq {
     };
 }
 
-/// Asserts that expression returns [`Ok(T)`] variant in runtime.
+/// Asserts that the left expression contains an [`Ok(T)`] variant and its contained value of type
+/// `T` equals the right expression on debug builds.
 ///
-/// Like [`assert_ok_eq!`], this macro also has a second version,
-/// where a custom panic message can be provided.
-///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
+/// This macro behaves nearly the same as [`assert_ok_eq!`] on debug builds, although it does not
+/// return the value contained in the `Ok` variant. On release builds it is a no-op.
 ///
 /// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_ok_eq!`]: ./macro.assert_ok_eq.html
 #[macro_export]
 macro_rules! debug_assert_ok_eq {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_ok_eq!($($arg)*); })

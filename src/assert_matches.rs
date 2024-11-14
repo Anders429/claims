@@ -1,9 +1,6 @@
-/// Asserts that expression matches any of the given variants.
+/// Asserts that the expression matches the provided pattern.
 ///
-/// This macro is available for Rust 1.26+.
-///
-/// It works exactly as [`std::matches!`] macro,
-/// except it panics if there is no match.
+/// Works like the [`std::matches!`] macro, but panics if there is no match.
 ///
 /// ## Uses
 ///
@@ -12,8 +9,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -23,7 +20,7 @@
 /// let foo = 'f';
 /// assert_matches!(foo, 'A'..='Z' | 'a'..='z');
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_matches!(foo, 'A'..='Z' | 'a'..='z', "expecting it to be letter: {}", foo);
 /// # }
 /// ```
@@ -38,7 +35,7 @@
 ///
 /// [`std::matches!`]: https://doc.rust-lang.org/stable/std/macro.matches.html
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_matches!`]: ./macro.debug_assert_matches.html
+/// [`debug_assert_matches!`]: crate::debug_assert_matches!
 #[macro_export]
 macro_rules! assert_matches {
     ($expression:expr, $( $pattern:pat )|+) => {
@@ -83,19 +80,11 @@ macro_rules! assert_matches {
     };
 }
 
-/// Asserts that expression matches any of the given variants.
+/// Asserts that the expression matches the provided pattern on debug builds.
 ///
-/// Like [`assert_matches!`], this macro also has a second version,
-/// where a custom panic message can be provided.
 ///
-/// ## Uses
-///
-/// See [`debug_assert_matches!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_matches!`]: ./macro.assert_matches.html
+/// This macro behaves the same as [`assert_matches!`] on debug builds. On release builds it is a
+/// no-op.
 #[macro_export]
 macro_rules! debug_assert_matches {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_matches!($($arg)*); })

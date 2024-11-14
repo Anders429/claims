@@ -1,15 +1,15 @@
-/// Asserts that expression returns [`Err(E)`] variant
-/// and its value of `E` type equals to the right expression.
+/// Asserts that the left expression contains an [`Err(E)`] variant and its contained value of type
+/// `E` equals the right expression.
 ///
 /// ## Uses
 ///
-/// Assertions are always checked in both debug and release builds, and cannot be disabled.
-/// See [`debug_assert_err_eq!`] for assertions that are not enabled in release builds by default.
+/// Assertions are always checked in both debug and release builds, and cannot be disabled. See
+/// [`debug_assert_err_eq!`] for assertions that are not enabled in release builds by default.
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -20,12 +20,12 @@
 ///
 /// assert_err_eq!(res, 1);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_err_eq!(res, 1, "Everything is good with {:?}", res);
 /// # }
 /// ```
 ///
-/// Value of `E` type from `Err(E)` will be returned from the macro call:
+/// The contained value will be returned from the macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -37,7 +37,7 @@
 /// # }
 /// ```
 ///
-/// `Ok(..)` variant will cause panic:
+/// An `Ok(_)` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -50,7 +50,7 @@
 ///
 /// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_err_eq!`]: ./macro.debug_assert_err_eq.html
+/// [`debug_assert_err_eq!`]: crate::debug_assert_err_eq!
 #[macro_export]
 macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr,) => {
@@ -80,19 +80,13 @@ macro_rules! assert_err_eq {
     };
 }
 
-/// Asserts that expression returns [`Err(E)`] variant in runtime.
+/// Asserts that the left expression contains an [`Err(E)`] variant and its contained value of type
+/// `E` equals the right expression in debug builds.
 ///
-/// Like [`assert_err_eq!`], this macro also has a second version,
-/// where a custom panic message can be provided.
-///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
+/// This macro behaves nearly the same as [`assert_err_eq!`] on debug builds, although it does not
+/// return the value contained in the `Err` variant. On release builds it is a no-op.
 ///
 /// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_err_eq!`]: ./macro.assert_err_eq.html
 #[macro_export]
 macro_rules! debug_assert_err_eq {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_err_eq!($($arg)*); })

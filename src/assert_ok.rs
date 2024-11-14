@@ -1,4 +1,4 @@
-/// Asserts that expression returns [`Ok(T)`] variant.
+/// Asserts that the expression matches an [`Ok(_)`] variant, returning the contained value.
 ///
 /// ## Uses
 ///
@@ -7,8 +7,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -19,12 +19,12 @@
 ///
 /// assert_ok!(res);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_ok!(res, "Everything is good with {:?}", res);
 /// # }
 /// ```
 ///
-/// Value of `T` type from `Ok(T)` will be returned from the macro call:
+/// The contained value will be returned from the macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -36,7 +36,7 @@
 /// # }
 /// ```
 ///
-/// `Err(..)` variant will cause panic:
+/// An `Err(..)` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -47,9 +47,9 @@
 /// # }
 /// ```
 ///
-/// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
+/// [`Ok(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_ok!`]: ./macro.debug_assert_ok.html
+/// [`debug_assert_ok!`]: crate::debug_assert_ok!
 #[macro_export]
 macro_rules! assert_ok {
     ($cond:expr,) => {
@@ -73,19 +73,12 @@ macro_rules! assert_ok {
     };
 }
 
-/// Asserts that expression returns [`Ok(T)`] variant in runtime.
+/// Asserts that the expression matches an [`Ok(_)`] variant on debug builds.
 ///
-/// Like [`assert_ok!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_ok!`] on debug builds, although it does not
+/// return the value contained in the `Ok` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_ok!`]: ./macro.assert_ok.html
+/// [`Ok(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 #[macro_export]
 macro_rules! debug_assert_ok {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_ok!($($arg)*); })

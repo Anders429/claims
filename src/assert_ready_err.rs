@@ -1,6 +1,5 @@
-/// Asserts that expression returns [`Poll::Ready(Err(E))`] variant.
-///
-/// This macro is available for Rust 1.36+.
+/// Asserts that the expression matches a [`Poll::Ready(Err(_))`] variant, returning the contained
+/// value.
 ///
 /// ## Uses
 ///
@@ -9,8 +8,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -25,7 +24,7 @@
 /// # }
 /// ```
 ///
-/// Value of `E` type from the `Poll::Ready(Err(E))` will also be returned from this macro call:
+/// The contained value will also be returned from this macro call:
 ///
 /// ```rust
 /// # #[macro_use] extern crate claims;
@@ -38,7 +37,7 @@
 /// # }
 /// ```
 ///
-/// Both `Poll::Ready(Ok(..))` and [`Poll::Pending`] variants will cause panic:
+/// Both `Poll::Ready(Ok(..))` and [`Poll::Pending`] variants will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -60,10 +59,10 @@
 /// # }
 /// ```
 ///
-/// [`Poll::Ready(Err(E))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
+/// [`Poll::Ready(Err(_))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_ready_err!`]: ./macro.debug_assert_ready_err.html
+/// [`debug_assert_ready_err!`]: crate::debug_assert_ready_err!
 #[macro_export]
 macro_rules! assert_ready_err {
     ($cond:expr,) => {
@@ -87,19 +86,12 @@ macro_rules! assert_ready_err {
     };
 }
 
-/// Asserts that expression returns [`Poll::Ready(Err(E))`] variant in runtime.
+/// Asserts that the expression matches a [`Poll::Ready(Err(_))`] variant on debug builds.
 ///
-/// Like [`assert_ready_err!`], this macro also has a second version,
-/// where a custom panic message can be provided.
+/// This macro behaves nearly the same as [`assert_ready_err!`] on debug builds, although it does not
+/// return the value contained in the `Poll::Ready(Err(_))` variant. On release builds it is a no-op.
 ///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
-///
-/// [`Poll::Ready(Err(E))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_ready_err!`]: ./macro.assert_ready_err.html
+/// [`Poll::Ready(Err(_))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 #[macro_export]
 macro_rules! debug_assert_ready_err {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_err!($($arg)*); })

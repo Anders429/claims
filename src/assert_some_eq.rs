@@ -1,5 +1,5 @@
-/// Asserts that left expression returns [`Some(T)`] variant
-/// and its value of `T` type equals to the right expression.
+/// Asserts that the left expression contains a [`Some(T)`] variant and its contained value of type
+/// `T` equals the right expression.
 ///
 /// ## Uses
 ///
@@ -8,8 +8,8 @@
 ///
 /// ## Custom messages
 ///
-/// This macro has a second form, where a custom panic message can be provided
-/// with or without arguments for formatting. See [`std::fmt`] for syntax for this form.
+/// This macro has a second form, where a custom panic message can be provided with or without
+/// arguments for formatting. See [`std::fmt`] for syntax for this form.
 ///
 /// ## Examples
 ///
@@ -20,12 +20,12 @@
 ///
 /// assert_some_eq!(maybe, 42);
 ///
-/// // With custom messages
+/// // With a custom message
 /// assert_some_eq!(maybe, 42, "Got some value");
 /// # }
 /// ```
 ///
-/// `None` variant will cause panic:
+/// A `None` variant will panic:
 ///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
@@ -38,7 +38,7 @@
 ///
 /// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
-/// [`debug_assert_some_eq!`]: ./macro.debug_assert_some_eq.html
+/// [`debug_assert_some_eq!`]: crate::debug_assert_some_eq!
 #[macro_export]
 macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr,) => {
@@ -68,19 +68,13 @@ macro_rules! assert_some_eq {
     };
 }
 
-/// Asserts that expression returns [`Some(T)`] variant in runtime.
+/// Asserts that the left expression contains a [`Some(T)`] variant and its contained value of type
+/// `T` equals the right expression on debug builds.
 ///
-/// Like [`assert_some_eq!`], this macro also has a second version,
-/// where a custom panic message can be provided.
-///
-/// ## Uses
-///
-/// See [`debug_assert!`] documentation for possible use cases.
-/// The same applies to this macro.
+/// This macro behaves nearly the same as [`assert_some_eq!`] on debug builds, although it does not
+/// return the value contained in the `Some` variant. On release builds it is a no-op.
 ///
 /// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
-/// [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
-/// [`assert_some_eq!`]: ./macro.assert_some_eq.html
 #[macro_export]
 macro_rules! debug_assert_some_eq {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_some_eq!($($arg)*); })
