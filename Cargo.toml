@@ -2,16 +2,10 @@
 name = "claims"
 description = "Assertion macros"
 version = "0.7.1"
-authors = ["svartalf <self@svartalf.info>", "mattwilkinsonn <mattwilki17@gmail.com>"]
+authors = ["svartalf <self@svartalf.info>", "mattwilkinsonn <mattwilki17@gmail.com>", "Anders Evensen"]
 license = "Apache-2.0 OR MIT"
-categories = ["development-tools", "development-tools::testing", "no-std"]
+categories = ["development-tools", "development-tools::debugging", "development-tools::testing", "no-std", "no-std::no-alloc"]
 keywords = ["assert", "test", "testing"]
-homepage = "https://github.com/mattwilkinsonn/rust-claims"
-repository = "https://github.com/mattwilkinsonn/rust-claims"
+repository = "https://github.com/Anders429/claims"
 readme = "README.md"
-documentation = "https://docs.rs/claims/0.7.1"
 edition = "2018"
-
-[badges]
-maintenance = { status = "actively-developed" }
-github-actions = { repository = "mattwilkinsonn/rust-claims", workflow = "Continuous integration" }
