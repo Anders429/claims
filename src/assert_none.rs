@@ -41,10 +41,7 @@
 /// [`debug_assert_none!`]: crate::debug_assert_none!
 #[macro_export]
 macro_rules! assert_none {
-    ($cond:expr,) => {
-        $crate::assert_none!($cond);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             n @ None => n,
             t @ Some(..) => {

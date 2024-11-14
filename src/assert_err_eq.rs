@@ -53,10 +53,7 @@
 /// [`debug_assert_err_eq!`]: crate::debug_assert_err_eq!
 #[macro_export]
 macro_rules! assert_err_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_err_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
+    ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
             Err(t) => {
                 assert_eq!(t, $expected);

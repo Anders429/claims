@@ -38,7 +38,7 @@
 /// [`debug_assert_le!`]: crate::debug_assert_le!
 #[macro_export]
 macro_rules! assert_le {
-    ($left:expr, $right:expr) => {
+    ($left:expr, $right:expr $(,)?) => {
         match (&$left, &$right) {
             (left_val, right_val) => {
                 if !(*left_val <= *right_val) {
@@ -51,9 +51,6 @@ macro_rules! assert_le {
                 }
             }
         }
-    };
-    ($left:expr, $right:expr,) => {
-        $crate::assert_le!($left, $right);
     };
     ($left:expr, $right:expr, $($arg:tt)+) => {
         match (&$left, &$right) {

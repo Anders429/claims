@@ -56,10 +56,7 @@
 /// [`debug_assert_pending!`]: crate::debug_assert_pending!
 #[macro_export]
 macro_rules! assert_pending {
-    ($cond:expr,) => {
-        $crate::assert_pending!($cond);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             p @ core::task::Poll::Pending => p,
             r @ core::task::Poll::Ready(..) => {

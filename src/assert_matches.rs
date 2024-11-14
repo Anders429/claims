@@ -38,7 +38,7 @@
 /// [`debug_assert_matches!`]: crate::debug_assert_matches!
 #[macro_export]
 macro_rules! assert_matches {
-    ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)?) => {
+    ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)? $(,)?) => {
         match $expression {
             $($pattern)|+ $(if $guard)? => {},
             other => {

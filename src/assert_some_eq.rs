@@ -41,10 +41,7 @@
 /// [`debug_assert_some_eq!`]: crate::debug_assert_some_eq!
 #[macro_export]
 macro_rules! assert_some_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_some_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
+    ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
             Some(t) => {
                 assert_eq!(t, $expected);

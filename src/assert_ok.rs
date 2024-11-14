@@ -52,10 +52,7 @@
 /// [`debug_assert_ok!`]: crate::debug_assert_ok!
 #[macro_export]
 macro_rules! assert_ok {
-    ($cond:expr,) => {
-        $crate::assert_ok!($cond);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             Ok(t) => t,
             Err(e) => {

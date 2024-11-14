@@ -40,10 +40,7 @@
 /// [`debug_assert_some!`]: crate::debug_assert_some!
 #[macro_export]
 macro_rules! assert_some {
-    ($cond:expr,) => {
-        $crate::assert_some!($cond,);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             Some(t) => t,
             None => {

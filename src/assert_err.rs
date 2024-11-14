@@ -40,10 +40,7 @@
 /// [`debug_assert_err!`]: crate::debug_assert_err!
 #[macro_export]
 macro_rules! assert_err {
-    ($cond:expr,) => {
-        $crate::assert_err!($cond);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             Ok(t) => {
                 panic!("assertion failed, expected Err(..), got Ok({:?})", t);

@@ -65,10 +65,7 @@
 /// [`debug_assert_ready_err!`]: crate::debug_assert_ready_err!
 #[macro_export]
 macro_rules! assert_ready_err {
-    ($cond:expr,) => {
-        $crate::assert_ready_err!($cond);
-    };
-    ($cond:expr) => {
+    ($cond:expr $(,)?) => {
         match $cond {
             core::task::Poll::Ready(Err(e)) => e,
             ok_or_pending => {

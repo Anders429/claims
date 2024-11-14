@@ -54,10 +54,7 @@
 /// [`debug_assert_ready_eq!`]: crate::debug_assert_ready_eq!
 #[macro_export]
 macro_rules! assert_ready_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_ready_ok_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
+    ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
             core::task::Poll::Ready(t) => {
                 assert_eq!(t, $expected);

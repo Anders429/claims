@@ -36,10 +36,7 @@
 /// [`debug_assert_ge!`]: crate::debug_assert_ge!
 #[macro_export]
 macro_rules! assert_ge {
-    ($left:expr, $right:expr,) => {
-        $crate::assert_ge!($left, $right);
-    };
-    ($left:expr, $right:expr) => {
+    ($left:expr, $right:expr $(,)?) => {
         match (&$left, &$right) {
             (left_val, right_val) => {
                 if !(*left_val >= *right_val) {
