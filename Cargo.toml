@@ -9,3 +9,6 @@ keywords = ["assert", "test", "testing"]
 repository = "https://github.com/Anders429/claims"
 readme = "README.md"
 edition = "2018"
+
+[package.metadata]
+msrv = "1.36.0"
