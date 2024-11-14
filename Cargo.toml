@@ -1,11 +1,11 @@
 [package]
 name = "claims"
-description = "Assertion macros"
+description = "Additional assertion macros for testing."
 version = "0.7.1"
 authors = ["svartalf <self@svartalf.info>", "mattwilkinsonn <mattwilki17@gmail.com>", "Anders Evensen"]
 license = "Apache-2.0 OR MIT"
 categories = ["development-tools", "development-tools::debugging", "development-tools::testing", "no-std", "no-std::no-alloc"]
-keywords = ["assert", "test", "testing"]
+keywords = ["assert", "test", "testing", "macros", "assertion"]
 repository = "https://github.com/Anders429/claims"
 readme = "README.md"
 edition = "2018"

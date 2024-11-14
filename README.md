@@ -1,12 +1,12 @@
 # claims
 
-Missing assertion macros for Rust.
-
 [![crates.io](https://img.shields.io/crates/v/claims.svg)](https://crates.io/crates/claims)
 [![docs.rs](https://docs.rs/claims/badge.svg)](https://docs.rs/claims)
 [![Build Status](https://github.com/Anders429/claims/workflows/Continuous%20Integration/badge.svg)](https://github.com/Anders429/claims/actions)
 [![License](https://img.shields.io/crates/l/claims)](#license)
 [![MSRV](https://img.shields.io/badge/rustc-1.36.0+-yellow.svg)](#minimum-supported-rust-version)
+
+Additional assertion macros for testing.
 
 This crate provides assertion macros that are missing in the Rust standard library:
 

@@ -1,8 +1,6 @@
 #![no_std]
 
-//! Assertion macros.
-//!
-//! This crate provides additional assert macros to make testing a bit easier.
+//! Additional assertion macros for testing.
 //!
 //! ## `#![no_std]` support
 //!
