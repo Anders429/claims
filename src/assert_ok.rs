@@ -92,7 +92,6 @@ macro_rules! debug_assert_ok {
 }
 
 #[cfg(test)]
-#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
     #[should_panic(expected = "assertion failed, expected Ok(..), got Err(())")]

@@ -80,7 +80,6 @@ macro_rules! debug_assert_some {
 }
 
 #[cfg(test)]
-#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
     #[should_panic(expected = "assertion failed, expected Some(..), got None")]

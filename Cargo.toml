@@ -9,15 +9,9 @@ keywords = ["assert", "test", "testing"]
 homepage = "https://github.com/mattwilkinsonn/rust-claims"
 repository = "https://github.com/mattwilkinsonn/rust-claims"
 readme = "README.md"
-build = "build.rs"
 documentation = "https://docs.rs/claims/0.7.1"
+edition = "2018"
 
 [badges]
 maintenance = { status = "actively-developed" }
 github-actions = { repository = "mattwilkinsonn/rust-claims", workflow = "Continuous integration" }
-
-[build-dependencies]
-autocfg = "1.0"
-
-[lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ["cfg(has_task_poll)", "cfg(has_private_in_public_issue)", "cfg(rustc_1_6)", "cfg(rustc_1_11)", "cfg(rustc_1_26)"] }

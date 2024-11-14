@@ -39,7 +39,6 @@
 /// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_some_eq!`]: ./macro.debug_assert_some_eq.html
-#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr,) => {
@@ -69,36 +68,6 @@ macro_rules! assert_some_eq {
     };
 }
 
-#[cfg(not(rustc_1_11))]
-#[macro_export]
-macro_rules! assert_some_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_some_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
-        match $cond {
-            Some(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            None => {
-                panic!("assertion failed, expected Some(..), got None");
-            }
-        }
-    };
-    ($cond:expr, $expected:expr, $($arg:tt)+) => {
-        match $cond {
-            Some(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            None => {
-                panic!("assertion failed, expected Some(..), got None: {}", format_args!($($arg)+));
-            }
-        }
-    };
-}
-
 /// Asserts that expression returns [`Some(T)`] variant in runtime.
 ///
 /// Like [`assert_some_eq!`], this macro also has a second version,
@@ -118,13 +87,8 @@ macro_rules! debug_assert_some_eq {
 }
 
 #[cfg(test)]
-#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
-    #[cfg_attr(
-        not(rustc_1_11),
-        ignore = "custom message propagation is only available in rustc 1.11.0 or later"
-    )]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
         let _ = assert_some_eq!(Some(1), 2, "foo");

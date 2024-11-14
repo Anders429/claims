@@ -51,7 +51,6 @@
 /// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_err_eq!`]: ./macro.debug_assert_err_eq.html
-#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_err_eq {
     ($cond:expr, $expected:expr,) => {
@@ -81,36 +80,6 @@ macro_rules! assert_err_eq {
     };
 }
 
-#[cfg(not(rustc_1_11))]
-#[macro_export]
-macro_rules! assert_err_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_err_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
-        match $cond {
-            Err(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            ok @ Ok(..) => {
-                panic!("assertion failed, expected Err(..), got {:?}", ok);
-            }
-        }
-    };
-    ($cond:expr, $expected:expr, $($arg:tt)+) => {
-        match $cond {
-            Err(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            ok @ Ok(..) => {
-                panic!("assertion failed, expected Err(..), got {:?}: {}", ok, format_args!($($arg)+));
-            }
-        }
-    };
-}
-
 /// Asserts that expression returns [`Err(E)`] variant in runtime.
 ///
 /// Like [`assert_err_eq!`], this macro also has a second version,
@@ -130,13 +99,8 @@ macro_rules! debug_assert_err_eq {
 }
 
 #[cfg(test)]
-#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
-    #[cfg_attr(
-        not(rustc_1_11),
-        ignore = "custom message propagation is only available in rustc 1.11.0 or later"
-    )]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
         let _ = assert_err_eq!(Err::<(), _>(1), 2, "foo");

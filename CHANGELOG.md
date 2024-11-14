@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- `assert_err_eq`, `assert_ok_eq`, and `assert_some_eq` now properly display custom messages.
+- MSRV raised to `1.36.0`.
+- Rust edition bumped to 2018.
+
+### Removed
+- Dependency on `autocfg`
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

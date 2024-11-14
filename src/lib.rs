@@ -1,4 +1,4 @@
-#![cfg_attr(rustc_1_6, no_std)]
+#![no_std]
 #![doc(html_root_url = "https://docs.rs/claims/0.7.1")]
 #![allow(unknown_lints, unused_extern_crates)]
 #![forbid(
@@ -105,22 +105,14 @@ mod assert_ge;
 mod assert_gt;
 mod assert_le;
 mod assert_lt;
+mod assert_matches;
 mod assert_none;
 mod assert_ok;
 mod assert_ok_eq;
+mod assert_pending;
+mod assert_ready;
+mod assert_ready_eq;
+mod assert_ready_err;
+mod assert_ready_ok;
 mod assert_some;
 mod assert_some_eq;
-
-#[cfg(has_task_poll)]
-mod assert_pending;
-#[cfg(has_task_poll)]
-mod assert_ready;
-#[cfg(has_task_poll)]
-mod assert_ready_eq;
-#[cfg(has_task_poll)]
-mod assert_ready_err;
-#[cfg(has_task_poll)]
-mod assert_ready_ok;
-
-#[cfg(rustc_1_26)]
-mod assert_matches;

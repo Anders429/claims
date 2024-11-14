@@ -51,7 +51,6 @@
 /// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 /// [`std::fmt`]: https://doc.rust-lang.org/std/fmt/index.html
 /// [`debug_assert_ok_eq!`]: ./macro.debug_assert_ok_eq.html
-#[cfg(rustc_1_11)]
 #[macro_export]
 macro_rules! assert_ok_eq {
     ($cond:expr, $expected:expr,) => {
@@ -81,36 +80,6 @@ macro_rules! assert_ok_eq {
     };
 }
 
-#[cfg(not(rustc_1_11))]
-#[macro_export]
-macro_rules! assert_ok_eq {
-    ($cond:expr, $expected:expr,) => {
-        $crate::assert_ok_eq!($cond, $expected);
-    };
-    ($cond:expr, $expected:expr) => {
-        match $cond {
-            Ok(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            e @ Err(..) => {
-                panic!("assertion failed, expected Ok(..), got {:?}", e);
-            }
-        }
-    };
-    ($cond:expr, $expected:expr, $($arg:tt)+) => {
-        match $cond {
-            Ok(t) => {
-                assert_eq!(t, $expected);
-                t
-            },
-            e @ Err(..) => {
-                panic!("assertion failed, expected Ok(..), got {:?}: {}", e, format_args!($($arg)+));
-            }
-        }
-    };
-}
-
 /// Asserts that expression returns [`Ok(T)`] variant in runtime.
 ///
 /// Like [`assert_ok_eq!`], this macro also has a second version,
@@ -130,13 +99,8 @@ macro_rules! debug_assert_ok_eq {
 }
 
 #[cfg(test)]
-#[cfg(not(has_private_in_public_issue))]
 mod tests {
     #[test]
-    #[cfg_attr(
-        not(rustc_1_11),
-        ignore = "custom message propagation is only available in rustc 1.11.0 or later"
-    )]
     #[should_panic(expected = "foo")]
     fn custom_message_propagation() {
         let _ = assert_ok_eq!(Ok::<_, ()>(1), 2, "foo");
