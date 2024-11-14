@@ -38,43 +38,23 @@
 /// [`debug_assert_matches!`]: crate::debug_assert_matches!
 #[macro_export]
 macro_rules! assert_matches {
-    ($expression:expr, $( $pattern:pat )|+) => {
+    ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)?) => {
         match $expression {
-            $( $pattern )|+ => {},
+            $($pattern)|+ $(if $guard)? => {},
             other => {
                 panic!(r#"assertion failed, expression does not match any of the given variants.
     expression: {:?}
-    variants: {}"#, other, stringify!($($pattern) |+));
+    variants: {}"#, other, stringify!($($pattern)|+));
             }
         }
     };
-    ($expression:expr, $( $pattern:pat )|+ if $guard: expr) => {
+    ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)?, $($arg:tt)+) => {
         match $expression {
-            $( $pattern )|+ if $guard => {},
+            $($pattern)|+ $(if $guard)? => {},
             other => {
                 panic!(r#"assertion failed, expression does not match any of the given variants.
     expression: {:?}
-    variants: {}"#, other, stringify!($($pattern) |+ if $guard));
-            }
-        }
-    };
-    ($expression:expr, $( $pattern:pat )|+, $($arg:tt)+) => {
-        match $expression {
-            $( $pattern )|+ => {},
-            other => {
-                panic!(r#"assertion failed, expression does not match any of the given variants.
-    expression: {:?}
-    variants: {}: {}"#, other, stringify!($($pattern) |+), format_args!($($arg)+));
-            }
-        }
-    };
-    ($expression:expr, $( $pattern:pat )|+ if $guard: expr, $($arg:tt)+) => {
-        match $expression {
-            $( $pattern )|+ if $guard => {},
-            other => {
-                panic!(r#"assertion failed, expression does not match any of the given variants.
-    expression: {:?}
-    variants: {}: {}"#, other, stringify!($($pattern) |+ if $guard), format_args!($($arg)+));
+    variants: {}: {}"#, other, stringify!($($pattern)|+), format_args!($($arg)+));
             }
         }
     };
