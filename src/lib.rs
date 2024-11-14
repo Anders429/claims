@@ -1,25 +1,4 @@
 #![no_std]
-#![doc(html_root_url = "https://docs.rs/claims/0.7.1")]
-#![allow(unknown_lints, unused_extern_crates)]
-#![forbid(
-    rust_2018_idioms,
-    unused,
-    unused_imports,
-    unused_features,
-    bare_trait_objects,
-    future_incompatible,
-    missing_debug_implementations,
-    missing_docs,
-    nonstandard_style,
-    dead_code,
-    deprecated,
-    rustdoc::broken_intra_doc_links,
-    trivial_casts,
-    trivial_numeric_casts,
-    unused_import_braces,
-    unused_results,
-    unsafe_code
-)]
 
 //! Assertion macros.
 //!
