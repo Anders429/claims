@@ -14,7 +14,7 @@
 
 ## 0.7.0 - 2022-08-31
 ### Added
-- `assert_err_eq!` macro. Thanks @Anders429!
+- `assert_err_eq!` and `debug_assert_err_eq!` macros. Thanks @Anders429!
 
 ## 0.6.0 - 2022-08-30
 
@@ -39,11 +39,31 @@
 
 ## 0.3.0 - 2020-03-13
 ### Added
-- `assert_matches!` macro.
+- `assert_matches!` and `debug_assert_matches!` macros.
 
 ## 0.2.0 - 2020-03-09
 ### Added
-- `assert_some_eq!` macro.
-- `assert_ok_eq!` macro.
+- `assert_some_eq!` and `debug_assert_some_eq!` macros.
+- `assert_ok_eq!`  and `debug_assert_ok_eq!` macros.
 ### Changed
 - Ensuring support for older Rust versions.
+
+## 0.1.1 - 2020-03-08
+### Changed
+- Improved documentation.
+
+## 0.1.0 - 2020-03-07
+### Added
+- `assert_err!` and `debug_assert_err!` macros.
+- `assert_ge!` and `debug_assert_ge!` macros.
+- `assert_gt!` and `debug_assert_gt!` macros.
+- `assert_le!` and `debug_assert_le!` macros.
+- `assert_lt!` and `debug_assert_lt!` macros.
+- `assert_none!` and `debug_assert_none!` macros.
+- `assert_ok!` and `debug_assert_ok!` macros.
+- `assert_pending!` and `debug_assert_pending!` macros.
+- `assert_ready!` and `debug_assert_ready!` macros.
+- `assert_ready_eq!` and `debug_assert_ready_eq!` macros.
+- `assert_ready_err!` and `debug_assert_ready_err!` macros.
+- `assert_ready_ok!` and `debug_assert_ready_ok!` macros.
+- `assert_some!` and `debug_assert_some!` macros.
