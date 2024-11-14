@@ -49,7 +49,7 @@
 /// assert_ready_err!(res);  // Will panic
 /// # }
 /// ```
-
+///
 /// ```rust,should_panic
 /// # #[macro_use] extern crate claims;
 /// # use std::task::Poll;
