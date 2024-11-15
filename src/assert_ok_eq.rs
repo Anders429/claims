@@ -60,7 +60,7 @@ macro_rules! assert_ok_eq {
                 t
             },
             e @ Err(..) => {
-                panic!("assertion failed, expected Ok(..), got {:?}", e);
+                panic!("assertion failed, expected Ok(_), got {:?}", e);
             }
         }
     };
@@ -71,7 +71,7 @@ macro_rules! assert_ok_eq {
                 t
             },
             e @ Err(..) => {
-                panic!("assertion failed, expected Ok(..), got {:?}: {}", e, format_args!($($arg)+));
+                panic!("assertion failed, expected Ok(_), got {:?}: {}", e, format_args!($($arg)+));
             }
         }
     };
@@ -92,8 +92,31 @@ macro_rules! debug_assert_ok_eq {
 #[cfg(test)]
 mod tests {
     #[test]
+    fn equal() {
+        let _ = assert_ok_eq!(Ok::<_, ()>(42), 42);
+    }
+
+    #[test]
+    #[should_panic]
+    fn not_equal() {
+        let _ = assert_ok_eq!(Ok::<_, ()>(42), 100);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(())")]
+    fn not_ok() {
+        let _ = assert_ok_eq!(Err::<usize, _>(()), 42);
+    }
+
+    #[test]
     #[should_panic(expected = "foo")]
-    fn custom_message_propagation() {
+    fn not_equal_custom_message() {
         let _ = assert_ok_eq!(Ok::<_, ()>(1), 2, "foo");
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(()): foo")]
+    fn not_ok_custom_message() {
+        let _ = assert_ok_eq!(Err::<usize, ()>(()), 2, "foo");
     }
 }

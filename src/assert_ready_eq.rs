@@ -60,8 +60,8 @@ macro_rules! assert_ready_eq {
                 assert_eq!(t, $expected);
                 t
             },
-            err_or_pending => {
-                panic!("assertion failed, expected Ready(Ok(..)), got {:?}", err_or_pending);
+            core::task::Poll::Pending => {
+                panic!("assertion failed, expected Ready(_), got Pending");
             }
         }
     };
@@ -71,8 +71,8 @@ macro_rules! assert_ready_eq {
                 assert_eq!(t, $expected, $($arg)+);
                 t
             },
-            err_or_pending => {
-                panic!("assertion failed, expected Ready(Ok(..)), got {:?}: {}", err_or_pending, format_args!($($arg)+));
+            core::task::Poll::Pending => {
+                panic!("assertion failed, expected Ready(_), got Pending: {}", format_args!($($arg)+));
             }
         }
     };
@@ -88,4 +88,38 @@ macro_rules! assert_ready_eq {
 #[macro_export]
 macro_rules! debug_assert_ready_eq {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_eq!($($arg)*); })
+}
+
+#[cfg(test)]
+mod tests {
+    use core::task::Poll::{Pending, Ready};
+
+    #[test]
+    fn equal() {
+        let _ = assert_ready_eq!(Ready(42), 42);
+    }
+
+    #[test]
+    #[should_panic]
+    fn not_equal() {
+        let _ = assert_ready_eq!(Ready(42), 100);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(_), got Pending")]
+    fn not_ready() {
+        let _ = assert_ready_eq!(Pending::<usize>, 42);
+    }
+
+    #[test]
+    #[should_panic(expected = "foo")]
+    fn not_equal_custom_message() {
+        let _ = assert_ready_eq!(Ready(1), 2, "foo");
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(_), got Pending: foo")]
+    fn not_ready_custom_message() {
+        let _ = assert_ready_eq!(Pending::<usize>, 2, "foo");
+    }
 }
