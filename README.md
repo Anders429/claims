@@ -10,11 +10,11 @@ Additional assertion macros for testing.
 
 This crate provides assertion macros that are missing in the Rust standard library:
 
-* Comparison: `assert_ge`, `assert_gt`, `assert_le`, and `assert_lt`.
-* Matching: `assert_matches`.
-* `Result`: `assert_ok`, `assert_err`, `assert_ok_eq`, and `assert_err_eq`.
-* `Option`: `assert_some`, `assert_none`, and `assert_some_eq`.
-* `Poll`: `assert_pending`, `assert_ready`, `assert_ready_ok`, `assert_ready_err`, and `assert_ready_eq`.
+* Comparison: [`assert_ge`](https://docs.rs/claims/latest/claims/macro.assert_ge.html), [`assert_gt`](https://docs.rs/claims/latest/claims/macro.assert_gt.html), [`assert_le`](https://docs.rs/claims/latest/claims/macro.assert_le.html), and [`assert_lt`](https://docs.rs/claims/latest/claims/macro.assert_lt.html).
+* Matching: [`assert_matches`](https://docs.rs/claims/latest/claims/macro.assert_matches.html).
+* `Result`: [`assert_ok`](https://docs.rs/claims/latest/claims/macro.assert_ok.html), [`assert_err`](https://docs.rs/claims/latest/claims/macro.assert_err.html), [`assert_ok_eq`](https://docs.rs/claims/latest/claims/macro.assert_ok_eq.html), and [`assert_err_eq`](https://docs.rs/claims/latest/claims/macro.assert_err_eq.html).
+* `Option`: [`assert_some`](https://docs.rs/claims/latest/claims/macro.assert_some.html), [`assert_none`](https://docs.rs/claims/latest/claims/macro.assert_none.html), and [`assert_some_eq`](https://docs.rs/claims/latest/claims/macro.assert_some_eq.html).
+* `Poll`: [`assert_pending`](https://docs.rs/claims/latest/claims/macro.assert_pending.html), [`assert_ready`](https://docs.rs/claims/latest/claims/macro.assert_ready.html), [`assert_ready_ok`](https://docs.rs/claims/latest/claims/macro.assert_ready_ok.html), [`assert_ready_err`](https://docs.rs/claims/latest/claims/macro.assert_ready_err.html), and [`assert_ready_eq`](https://docs.rs/claims/latest/claims/macro.assert_ready_eq.html).
 
 ## Installation
 
