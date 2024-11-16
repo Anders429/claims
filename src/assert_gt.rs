@@ -73,5 +73,8 @@ macro_rules! assert_gt {
 /// This macro behaves the same as [`assert_gt!`] on debug builds. On release builds it is a no-op.
 #[macro_export]
 macro_rules! debug_assert_gt {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_gt!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_gt!($($arg)*);
+    }
 }

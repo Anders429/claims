@@ -74,7 +74,10 @@ macro_rules! assert_some_eq {
 /// [`Some(T)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 #[macro_export]
 macro_rules! debug_assert_some_eq {
-    ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_some_eq!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_some_eq!($($arg)*);
+    }
 }
 
 #[cfg(test)]

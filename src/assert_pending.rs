@@ -84,7 +84,8 @@ macro_rules! assert_pending {
 macro_rules! debug_assert_pending {
     ($($arg:tt)*) => {
         #[allow(unused_must_use)]
-        if core::cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             $crate::assert_pending!($($arg)*);
         }
     }

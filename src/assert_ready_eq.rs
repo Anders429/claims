@@ -87,7 +87,10 @@ macro_rules! assert_ready_eq {
 /// [`Poll::Ready(T)`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 #[macro_export]
 macro_rules! debug_assert_ready_eq {
-    ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_eq!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_ready_eq!($($arg)*);
+    }
 }
 
 #[cfg(test)]

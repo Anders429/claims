@@ -78,7 +78,10 @@ macro_rules! assert_ok {
 /// [`Ok(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 #[macro_export]
 macro_rules! debug_assert_ok {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_ok!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_ok!($($arg)*);
+    }
 }
 
 #[cfg(test)]
@@ -142,6 +145,7 @@ mod tests {
 
     #[test]
     fn debug_does_not_require_ok_to_impl_debug() {
+        #[allow(dead_code)]
         enum Foo {
             Bar,
         }

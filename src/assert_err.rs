@@ -62,7 +62,10 @@ macro_rules! assert_err {
 /// [`Err(_)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 #[macro_export]
 macro_rules! debug_assert_err {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_err!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_err!($($arg)*);
+    }
 }
 
 #[cfg(test)]
@@ -127,6 +130,7 @@ mod tests {
 
     #[test]
     fn debug_does_not_require_err_to_impl_debug() {
+        #[allow(dead_code)]
         enum Foo {
             Bar,
         }

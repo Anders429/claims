@@ -67,5 +67,8 @@ macro_rules! assert_matches {
 /// no-op.
 #[macro_export]
 macro_rules! debug_assert_matches {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_matches!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_matches!($($arg)*);
+    }
 }

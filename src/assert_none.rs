@@ -65,7 +65,10 @@ macro_rules! assert_none {
 /// no-op.
 #[macro_export]
 macro_rules! debug_assert_none {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_none!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_none!($($arg)*);
+    }
 }
 
 #[cfg(test)]

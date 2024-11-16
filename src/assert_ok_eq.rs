@@ -86,7 +86,10 @@ macro_rules! assert_ok_eq {
 /// [`Ok(T)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Ok
 #[macro_export]
 macro_rules! debug_assert_ok_eq {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_ok_eq!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_ok_eq!($($arg)*);
+    }
 }
 
 #[cfg(test)]

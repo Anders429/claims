@@ -90,7 +90,10 @@ macro_rules! assert_ready_ok {
 /// [`Poll::Ready(Ok(_))`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Ready
 #[macro_export]
 macro_rules! debug_assert_ready_ok {
-    ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_ok!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_ready_ok!($($arg)*);
+    }
 }
 
 #[cfg(test)]

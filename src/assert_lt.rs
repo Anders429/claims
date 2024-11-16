@@ -74,5 +74,8 @@ macro_rules! assert_lt {
 /// This macro behaves the same as [`assert_lt!`] on debug builds. On release builds it is a no-op.
 #[macro_export]
 macro_rules! debug_assert_lt {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_lt!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_lt!($($arg)*);
+    }
 }

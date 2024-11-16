@@ -86,7 +86,10 @@ macro_rules! assert_err_eq {
 /// [`Err(E)`]: https://doc.rust-lang.org/core/result/enum.Result.html#variant.Err
 #[macro_export]
 macro_rules! debug_assert_err_eq {
-    ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_err_eq!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_err_eq!($($arg)*);
+    }
 }
 
 #[cfg(test)]

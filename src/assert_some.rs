@@ -66,7 +66,10 @@ macro_rules! assert_some {
 /// [`Some(_)`]: https://doc.rust-lang.org/core/option/enum.Option.html#variant.Some
 #[macro_export]
 macro_rules! debug_assert_some {
-    ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_some!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[cfg(debug_assertions)]
+        $crate::assert_some!($($arg)*);
+    }
 }
 
 #[cfg(test)]
@@ -131,6 +134,7 @@ mod tests {
 
     #[test]
     fn debug_does_not_require_some_to_impl_debug() {
+        #[allow(dead_code)]
         enum Foo {
             Bar,
         }
