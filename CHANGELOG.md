@@ -6,7 +6,7 @@
 - MSRV raised to `1.36.0`.
 - Rust edition bumped to 2018.
 ### Fixed
-- Corrected the name of `debug_assert_ready_ok_eq!` to instead by `debug_assert_ready_eq!`.
+- Corrected the name of `debug_assert_ready_ok_eq!` to `debug_assert_ready_eq!`.
 ### Removed
 - Dependency on `autocfg`.
 
