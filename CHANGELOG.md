@@ -24,7 +24,6 @@
 - `assert_err_eq!` and `debug_assert_err_eq!` macros. Thanks @Anders429!
 
 ## 0.6.0 - 2022-08-30
-
 ### Changed
 - Forked the [original project](https://github.com/svartalf/rust-claim) as the maintainer is unreachable at the moment. Renamed crate to `claims`.
 - Fixed versioning conflict with `autocfg` v1.x, thanks @Turbo87!
