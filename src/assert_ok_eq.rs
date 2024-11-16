@@ -59,7 +59,7 @@ macro_rules! assert_ok_eq {
                 assert_eq!(t, $expected);
                 t
             },
-            e @ Err(..) => {
+            e @ Err(_) => {
                 panic!("assertion failed, expected Ok(_), got {:?}", e);
             }
         }
@@ -70,7 +70,7 @@ macro_rules! assert_ok_eq {
                 assert_eq!(t, $expected, $($arg)+);
                 t
             },
-            e @ Err(..) => {
+            e @ Err(_) => {
                 panic!("assertion failed, expected Ok(_), got {:?}: {}", e, format_args!($($arg)+));
             }
         }
