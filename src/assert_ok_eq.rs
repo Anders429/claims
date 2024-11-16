@@ -55,23 +55,23 @@
 macro_rules! assert_ok_eq {
     ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
-            Ok(t) => {
-                assert_eq!(t, $expected);
+            ::core::result::Result::Ok(t) => {
+                ::core::assert_eq!(t, $expected);
                 t
             },
-            e @ Err(_) => {
-                panic!("assertion failed, expected Ok(_), got {:?}", e);
+            e @ ::core::result::Result::Err(_) => {
+                ::core::panic!("assertion failed, expected Ok(_), got {:?}", e);
             }
         }
     };
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
-            Ok(t) => {
-                assert_eq!(t, $expected, $($arg)+);
+            ::core::result::Result::Ok(t) => {
+                ::core::assert_eq!(t, $expected, $($arg)+);
                 t
             },
-            e @ Err(_) => {
-                panic!("assertion failed, expected Ok(_), got {:?}: {}", e, format_args!($($arg)+));
+            e @ ::core::result::Result::Err(_) => {
+                ::core::panic!("assertion failed, expected Ok(_), got {:?}: {}", e, ::core::format_args!($($arg)+));
             }
         }
     };

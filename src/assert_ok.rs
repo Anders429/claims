@@ -54,17 +54,17 @@
 macro_rules! assert_ok {
     ($cond:expr $(,)?) => {
         match $cond {
-            Ok(t) => t,
-            Err(e) => {
-                panic!("assertion failed, expected Ok(_), got Err({:?})", e);
+            ::core::result::Result::Ok(t) => t,
+            ::core::result::Result::Err(e) => {
+                ::core::panic!("assertion failed, expected Ok(_), got Err({:?})", e);
             }
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            Ok(t) => t,
-            Err(e) => {
-                panic!("assertion failed, expected Ok(_), got Err({:?}): {}", e, format_args!($($arg)+));
+            ::core::result::Result::Ok(t) => t,
+            ::core::result::Result::Err(e) => {
+                ::core::panic!("assertion failed, expected Ok(_), got Err({:?}): {}", e, ::core::format_args!($($arg)+));
             }
         }
     };

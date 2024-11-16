@@ -43,9 +43,9 @@ macro_rules! assert_matches {
         match $expression {
             $($pattern)|+ $(if $guard)? => {},
             other => {
-                panic!(r#"assertion failed, expression does not match the given pattern.
+                ::core::panic!(r#"assertion failed, expression does not match the given pattern.
     expression: {:?}
-    pattern: {}"#, other, stringify!($($pattern)|+ $(if $guard)?));
+    pattern: {}"#, other, ::core::stringify!($($pattern)|+ $(if $guard)?));
             }
         }
     };
@@ -54,9 +54,9 @@ macro_rules! assert_matches {
         match $expression {
             $($pattern)|+ $(if $guard)? => {},
             other => {
-                panic!(r#"assertion failed, expression does not match the given pattern.
+                ::core::panic!(r#"assertion failed, expression does not match the given pattern.
     expression: {:?}
-    pattern: {}: {}"#, other, stringify!($($pattern)|+ $(if $guard)?), format_args!($($arg)+));
+    pattern: {}: {}"#, other, ::core::stringify!($($pattern)|+ $(if $guard)?), ::core::format_args!($($arg)+));
             }
         }
     };

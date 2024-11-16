@@ -43,23 +43,23 @@
 macro_rules! assert_some_eq {
     ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
-            Some(t) => {
-                assert_eq!(t, $expected);
+            ::core::option::Option::Some(t) => {
+                ::core::assert_eq!(t, $expected);
                 t
             },
-            None => {
-                panic!("assertion failed, expected Some(_), got None");
+            ::core::option::Option::None => {
+                ::core::panic!("assertion failed, expected Some(_), got None");
             }
         }
     };
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
-            Some(t) => {
-                assert_eq!(t, $expected, $($arg)+);
+            ::core::option::Option::Some(t) => {
+                ::core::assert_eq!(t, $expected, $($arg)+);
                 t
             },
-            None => {
-                panic!("assertion failed, expected Some(_), got None: {}", format_args!($($arg)+));
+            ::core::option::Option::None => {
+                ::core::panic!("assertion failed, expected Some(_), got None: {}", ::core::format_args!($($arg)+));
             }
         }
     };

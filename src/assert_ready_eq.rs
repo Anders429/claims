@@ -56,23 +56,23 @@
 macro_rules! assert_ready_eq {
     ($cond:expr, $expected:expr $(,)?) => {
         match $cond {
-            core::task::Poll::Ready(t) => {
-                assert_eq!(t, $expected);
+            ::core::task::Poll::Ready(t) => {
+                ::core::assert_eq!(t, $expected);
                 t
             },
-            core::task::Poll::Pending => {
-                panic!("assertion failed, expected Ready(_), got Pending");
+            ::core::task::Poll::Pending => {
+                ::core::panic!("assertion failed, expected Ready(_), got Pending");
             }
         }
     };
     ($cond:expr, $expected:expr, $($arg:tt)+) => {
         match $cond {
-            core::task::Poll::Ready(t) => {
-                assert_eq!(t, $expected, $($arg)+);
+            ::core::task::Poll::Ready(t) => {
+                ::core::assert_eq!(t, $expected, $($arg)+);
                 t
             },
-            core::task::Poll::Pending => {
-                panic!("assertion failed, expected Ready(_), got Pending: {}", format_args!($($arg)+));
+            ::core::task::Poll::Pending => {
+                ::core::panic!("assertion failed, expected Ready(_), got Pending: {}", ::core::format_args!($($arg)+));
             }
         }
     };

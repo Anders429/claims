@@ -42,17 +42,17 @@
 macro_rules! assert_some {
     ($cond:expr $(,)?) => {
         match $cond {
-            Some(t) => t,
-            None => {
-                panic!("assertion failed, expected Some(_), got None");
+            ::core::option::Option::Some(t) => t,
+            ::core::option::Option::None => {
+                ::core::panic!("assertion failed, expected Some(_), got None");
             }
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            Some(t) => t,
-            None => {
-                panic!("assertion failed, expected Some(_), got None: {}", format_args!($($arg)+));
+            ::core::option::Option::Some(t) => t,
+            ::core::option::Option::None => {
+                ::core::panic!("assertion failed, expected Some(_), got None: {}", ::core::format_args!($($arg)+));
             }
         }
     };

@@ -66,16 +66,16 @@
 macro_rules! assert_ready_ok {
     ($cond:expr $(,)?) => {
         match $cond {
-            core::task::Poll::Ready(Ok(t)) => t,
-            core::task::Poll::Ready(Err(e)) => panic!("assertion failed, expected Ready(Ok(_)), got Ready(Err({:?}))", e),
-            core::task::Poll::Pending => panic!("assertion failed, expected Ready(Ok(_)), got Pending"),
+            ::core::task::Poll::Ready(::core::result::Result::Ok(t)) => t,
+            ::core::task::Poll::Ready(::core::result::Result::Err(e)) => ::core::panic!("assertion failed, expected Ready(Ok(_)), got Ready(Err({:?}))", e),
+            ::core::task::Poll::Pending => ::core::panic!("assertion failed, expected Ready(Ok(_)), got Pending"),
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            core::task::Poll::Ready(Ok(t)) => t,
-            core::task::Poll::Ready(Err(e)) => panic!("assertion failed, expected Ready(Ok(_)), got Ready(Err({:?})): {}", e, format_args!($($arg)+)),
-            core::task::Poll::Pending => panic!("assertion failed, expected Ready(Ok(_)), got Pending: {}", format_args!($($arg)+)),
+            ::core::task::Poll::Ready(::core::result::Result::Ok(t)) => t,
+            ::core::task::Poll::Ready(::core::result::Result::Err(e)) => ::core::panic!("assertion failed, expected Ready(Ok(_)), got Ready(Err({:?})): {}", e, ::core::format_args!($($arg)+)),
+            ::core::task::Poll::Pending => ::core::panic!("assertion failed, expected Ready(Ok(_)), got Pending: {}", ::core::format_args!($($arg)+)),
         }
     };
 }

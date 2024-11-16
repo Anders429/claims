@@ -16,6 +16,7 @@
 - `assert_matches!` and `debug_assert_matches!` no longer emit warnings if the given pattern covers all cases.
 - `assert_matches!` and `debug_assert_matches!` now include `if` guard in the pattern in the error message.
 - Fixed `debug_*` macros to work on Rust versions back to `rustc 1.36.0`.
+- Fixed macro hygiene issues for all macros.
 ### Removed
 - Dependency on `autocfg`.
 

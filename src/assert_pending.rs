@@ -58,17 +58,17 @@
 macro_rules! assert_pending {
     ($cond:expr $(,)?) => {
         match $cond {
-            pending @ core::task::Poll::Pending => pending,
-            ready @ core::task::Poll::Ready(_) => {
-                panic!("assertion failed, expected Pending, got {:?}", ready);
+            pending @ ::core::task::Poll::Pending => pending,
+            ready @ ::core::task::Poll::Ready(_) => {
+                ::core::panic!("assertion failed, expected Pending, got {:?}", ready);
             }
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            pending @ core::task::Poll::Pending => pending,
-            ready @ core::task::Poll::Ready(_) => {
-                panic!("assertion failed, expected Pending, got {:?}: {}", ready, format_args!($($arg)+));
+            pending @ ::core::task::Poll::Pending => pending,
+            ready @ ::core::task::Poll::Ready(_) => {
+                ::core::panic!("assertion failed, expected Pending, got {:?}: {}", ready, ::core::format_args!($($arg)+));
             }
         }
     };
