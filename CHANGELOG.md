@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 - 2024-11-16
 ### Changed
 - `assert_err_eq`, `assert_ok_eq`, and `assert_some_eq` now properly display custom messages.
 - MSRV raised to `1.38.0`.

@@ -22,7 +22,7 @@ Add the following to your `Cargo.toml` manifest to use this crate for tests, exa
 
 ```toml
 [dev-dependencies]
-claims = "0.7"
+claims = "0.8"
 ```
 
 ## Usage
