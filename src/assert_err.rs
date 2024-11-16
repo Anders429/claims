@@ -137,4 +137,23 @@ mod tests {
 
         debug_assert_err!(Err::<(), _>(Foo::Bar));
     }
+
+    #[test]
+    fn does_not_require_err_to_impl_debug_custom_message() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_err!(Err::<(), _>(Foo::Bar), "foo");
+    }
+
+    #[test]
+    fn debug_does_not_require_err_to_impl_debug_custom_message() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_err!(Err::<(), _>(Foo::Bar), "foo");
+    }
 }

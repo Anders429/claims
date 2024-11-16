@@ -6,6 +6,8 @@
 - MSRV raised to `1.36.0`.
 - Rust edition bumped to 2018.
 - Improved error messages.
+- Removed `Debug` requirement for `Ok(T)` in `assert_ready_ok!` macro.
+- Removed `Debug` requirement for `Err(E)` in `assert_ready_err!` macro.
 ### Fixed
 - Corrected the name of `debug_assert_ready_ok_eq!` to `debug_assert_ready_eq!`.
 - `assert_pending!` and `debug_assert_pending!` now correctly display custom messages.
@@ -38,8 +40,8 @@
 
 ## 0.4.0 - 2020-10-26
 ### Changed
-- Removed `Debug` requirement for `Ok(T)` in `assert_err!` macro.
-- Removed `Debug` requirement for `Err(e)` in `assert_ok!` macro.
+- Removed `Debug` requirement for `Ok(T)` in `assert_ok!` macro.
+- Removed `Debug` requirement for `Err(e)` in `assert_err!` macro.
 
 ## 0.3.1 - 2020-03-13
 ### Changed

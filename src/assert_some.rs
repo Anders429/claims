@@ -141,4 +141,23 @@ mod tests {
 
         debug_assert_some!(Some(Foo::Bar));
     }
+
+    #[test]
+    fn does_not_require_some_to_impl_debug_custom_message() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_some!(Some(Foo::Bar), "foo");
+    }
+
+    #[test]
+    fn debug_does_not_require_some_to_impl_debug_custom_message() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_some!(Some(Foo::Bar), "foo");
+    }
 }

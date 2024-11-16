@@ -152,4 +152,23 @@ mod tests {
 
         debug_assert_ok!(Ok::<_, ()>(Foo::Bar));
     }
+
+    #[test]
+    fn does_not_require_ok_to_impl_debug_custom_message() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_ok!(Ok::<_, ()>(Foo::Bar), "foo");
+    }
+
+    #[test]
+    fn debug_does_not_require_ok_to_impl_debug_custom_message() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ok!(Ok::<_, ()>(Foo::Bar), "foo");
+    }
 }

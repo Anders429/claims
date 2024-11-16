@@ -137,4 +137,42 @@ mod tests {
     fn debug_release_not_ready() {
         debug_assert_ready!(Pending::<()>);
     }
+
+    #[test]
+    fn does_not_require_ready_to_impl_debug() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_ready!(Ready(Foo::Bar));
+    }
+
+    #[test]
+    fn debug_does_not_require_ready_to_impl_debug() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ready!(Ready(Foo::Bar));
+    }
+
+    #[test]
+    fn does_not_require_ready_to_impl_debug_custom_message() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_ready!(Ready(Foo::Bar), "foo");
+    }
+
+    #[test]
+    fn debug_does_not_require_ready_to_impl_debug_custom_message() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ready!(Ready(Foo::Bar), "foo");
+    }
 }

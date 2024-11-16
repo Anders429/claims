@@ -68,17 +68,15 @@ macro_rules! assert_ready_err {
     ($cond:expr $(,)?) => {
         match $cond {
             core::task::Poll::Ready(Err(e)) => e,
-            ok_or_pending => {
-                panic!("assertion failed, expected Ready(Err(_)), got {:?}", ok_or_pending);
-            }
+            core::task::Poll::Ready(Ok(t)) => panic!("assertion failed, expected Ready(Err(_)), got Ready(Ok({:?}))", t),
+            core::task::Poll::Pending => panic!("assertion failed, expected Ready(Err(_)), got Pending"),
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
             core::task::Poll::Ready(Err(e)) => e,
-            ok_or_pending => {
-                panic!("assertion failed, expected Ready(Err(_)), got {:?}: {}", ok_or_pending, format_args!($($arg)+));
-            }
+            core::task::Poll::Ready(Ok(t)) => panic!("assertion failed, expected Ready(Err(_)), got Ready(Ok({:?})): {}", t, format_args!($($arg)+)),
+            core::task::Poll::Pending => panic!("assertion failed, expected Ready(Err(_)), got Pending: {}", format_args!($($arg)+)),
         }
     };
 }
@@ -180,5 +178,43 @@ mod tests {
     #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
     fn debug_release_not_ready() {
         debug_assert_ready_err!(Pending::<Result<(), ()>>);
+    }
+
+    #[test]
+    fn does_not_require_err_to_impl_debug() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_ready_err!(Ready(Err::<(), _>(Foo::Bar)));
+    }
+
+    #[test]
+    fn debug_does_not_require_err_to_impl_debug() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ready_err!(Ready(Err::<(), _>(Foo::Bar)));
+    }
+
+    #[test]
+    fn does_not_require_err_to_impl_debug_custom_message() {
+        enum Foo {
+            Bar,
+        }
+
+        assert_ready_err!(Ready(Err::<(), _>(Foo::Bar)), "foo");
+    }
+
+    #[test]
+    fn debug_does_not_require_err_to_impl_debug_custom_message() {
+        #[allow(dead_code)]
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ready_err!(Ready(Err::<(), _>(Foo::Bar)), "foo");
     }
 }
