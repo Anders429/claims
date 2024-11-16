@@ -96,30 +96,76 @@ mod tests {
 
     #[test]
     fn equal() {
-        let _ = assert_ready_eq!(Ready(42), 42);
+        assert_ready_eq!(Ready(42), 42);
     }
 
     #[test]
     #[should_panic]
     fn not_equal() {
-        let _ = assert_ready_eq!(Ready(42), 100);
+        assert_ready_eq!(Ready(42), 100);
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Ready(_), got Pending")]
     fn not_ready() {
-        let _ = assert_ready_eq!(Pending::<usize>, 42);
+        assert_ready_eq!(Pending::<usize>, 42);
     }
 
     #[test]
     #[should_panic(expected = "foo")]
     fn not_equal_custom_message() {
-        let _ = assert_ready_eq!(Ready(1), 2, "foo");
+        assert_ready_eq!(Ready(1), 2, "foo");
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Ready(_), got Pending: foo")]
     fn not_ready_custom_message() {
-        let _ = assert_ready_eq!(Pending::<usize>, 2, "foo");
+        assert_ready_eq!(Pending::<usize>, 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_equal() {
+        debug_assert_ready_eq!(Ready(42), 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic]
+    fn debug_not_equal() {
+        debug_assert_ready_eq!(Ready(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(_), got Pending")]
+    fn debug_not_ready() {
+        debug_assert_ready_eq!(Pending::<usize>, 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "foo")]
+    fn debug_not_equal_custom_message() {
+        debug_assert_ready_eq!(Ready(1), 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(_), got Pending: foo")]
+    fn debug_not_ready_custom_message() {
+        debug_assert_ready_eq!(Pending::<usize>, 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_equal() {
+        debug_assert_ready_eq!(Ready(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_ready() {
+        debug_assert_ready_eq!(Pending::<usize>, 42);
     }
 }

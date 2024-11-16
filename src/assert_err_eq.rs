@@ -93,30 +93,76 @@ macro_rules! debug_assert_err_eq {
 mod tests {
     #[test]
     fn equal() {
-        let _ = assert_err_eq!(Err::<(), _>(42), 42);
+        assert_err_eq!(Err::<(), _>(42), 42);
     }
 
     #[test]
     #[should_panic]
     fn not_equal() {
-        let _ = assert_err_eq!(Err::<(), _>(42), 100);
+        assert_err_eq!(Err::<(), _>(42), 100);
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Err(_), got Ok(())")]
     fn not_err() {
-        let _ = assert_err_eq!(Ok::<_, usize>(()), 42);
+        assert_err_eq!(Ok::<_, usize>(()), 42);
     }
 
     #[test]
     #[should_panic(expected = "foo")]
     fn not_equal_custom_message() {
-        let _ = assert_err_eq!(Err::<(), _>(1), 2, "foo");
+        assert_err_eq!(Err::<(), _>(1), 2, "foo");
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Err(_), got Ok(()): foo")]
     fn not_err_custom_message() {
-        let _ = assert_err_eq!(Ok::<_, usize>(()), 2, "foo");
+        assert_err_eq!(Ok::<_, usize>(()), 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_equal() {
+        debug_assert_err_eq!(Err::<(), _>(42), 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic]
+    fn debug_not_equal() {
+        debug_assert_err_eq!(Err::<(), _>(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Err(_), got Ok(())")]
+    fn debug_not_err() {
+        debug_assert_err_eq!(Ok::<_, usize>(()), 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "foo")]
+    fn debug_not_equal_custom_message() {
+        debug_assert_err_eq!(Err::<(), _>(1), 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Err(_), got Ok(()): foo")]
+    fn debug_not_err_custom_message() {
+        debug_assert_err_eq!(Ok::<_, usize>(()), 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_equal() {
+        debug_assert_err_eq!(Err::<(), _>(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_err() {
+        debug_assert_err_eq!(Ok::<_, usize>(()), 42);
     }
 }

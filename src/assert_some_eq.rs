@@ -81,30 +81,76 @@ macro_rules! debug_assert_some_eq {
 mod tests {
     #[test]
     fn equal() {
-        let _ = assert_some_eq!(Some(42), 42);
+        assert_some_eq!(Some(42), 42);
     }
 
     #[test]
     #[should_panic]
     fn not_equal() {
-        let _ = assert_some_eq!(Some(42), 100);
+        assert_some_eq!(Some(42), 100);
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Some(_), got None")]
     fn not_some() {
-        let _ = assert_some_eq!(None::<usize>, 42);
+        assert_some_eq!(None::<usize>, 42);
     }
 
     #[test]
     #[should_panic(expected = "foo")]
     fn not_equal_custom_message() {
-        let _ = assert_some_eq!(Some(1), 2, "foo");
+        assert_some_eq!(Some(1), 2, "foo");
     }
 
     #[test]
     #[should_panic(expected = "assertion failed, expected Some(_), got None: foo")]
     fn not_some_custom_message() {
-        let _ = assert_some_eq!(None::<usize>, 2, "foo");
+        assert_some_eq!(None::<usize>, 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_equal() {
+        debug_assert_some_eq!(Some(42), 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic]
+    fn debug_not_equal() {
+        debug_assert_some_eq!(Some(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Some(_), got None")]
+    fn debug_not_some() {
+        debug_assert_some_eq!(None::<usize>, 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "foo")]
+    fn debug_not_equal_custom_message() {
+        debug_assert_some_eq!(Some(1), 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Some(_), got None: foo")]
+    fn debug_not_some_custom_message() {
+        debug_assert_some_eq!(None::<usize>, 2, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_equal() {
+        debug_assert_some_eq!(Some(42), 100);
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_some() {
+        debug_assert_some_eq!(None::<usize>, 42);
     }
 }
