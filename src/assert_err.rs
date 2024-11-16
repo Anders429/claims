@@ -42,18 +42,14 @@
 macro_rules! assert_err {
     ($cond:expr $(,)?) => {
         match $cond {
-            Ok(t) => {
-                panic!("assertion failed, expected Err(..), got Ok({:?})", t);
-            },
             Err(e) => e,
+            Ok(t) => panic!("assertion failed, expected Err(_), got Ok({:?})", t),
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            Ok(t) => {
-                panic!("assertion failed, expected Err(..), got Ok({:?}): {}", t, format_args!($($arg)+));
-            },
             Err(e) => e,
+            Ok(t) => panic!("assertion failed, expected Err(_), got Ok({:?}): {}", t, format_args!($($arg)+)),
         }
     };
 }
@@ -72,7 +68,7 @@ macro_rules! debug_assert_err {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[should_panic(expected = "assertion failed, expected Err(..), got Ok(42)")]
+    #[should_panic(expected = "assertion failed, expected Err(_), got Ok(42)")]
     fn default_panic_message() {
         let res: Result<i32, ()> = Ok(42);
         assert_err!(res);
@@ -80,7 +76,7 @@ mod tests {
 
     #[test]
     #[should_panic(
-        expected = "assertion failed, expected Err(..), got Ok(42): we are checking if there was an error with Ok(42)"
+        expected = "assertion failed, expected Err(_), got Ok(42): we are checking if there was an error with Ok(42)"
     )]
     fn custom_panic_message() {
         let res: Result<i32, ()> = Ok(42);
@@ -94,6 +90,6 @@ mod tests {
         }
 
         let res: Result<i32, Foo> = Err(Foo::Bar);
-        let _ = assert_err!(res);
+        assert_err!(res);
     }
 }

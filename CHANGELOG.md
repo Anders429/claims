@@ -5,6 +5,7 @@
 - `assert_err_eq`, `assert_ok_eq`, and `assert_some_eq` now properly display custom messages.
 - MSRV raised to `1.36.0`.
 - Rust edition bumped to 2018.
+- Improved error messages.
 ### Fixed
 - Corrected the name of `debug_assert_ready_ok_eq!` to `debug_assert_ready_eq!`.
 ### Removed

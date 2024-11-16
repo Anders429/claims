@@ -43,17 +43,17 @@
 macro_rules! assert_none {
     ($cond:expr $(,)?) => {
         match $cond {
-            n @ None => n,
-            t @ Some(..) => {
-                panic!("assertion failed, expected None, got {:?}", t);
+            none @ None => none,
+            some @ Some(_) => {
+                panic!("assertion failed, expected None, got {:?}", some);
             }
         }
     };
     ($cond:expr, $($arg:tt)+) => {
         match $cond {
-            n @ None => n,
-            t @ Some(..) => {
-                panic!("assertion failed, expected None, got {:?}: {}", t, format_args!($($arg)+));
+            none @ None => none,
+            some @ Some(_) => {
+                panic!("assertion failed, expected None, got {:?}: {}", some, format_args!($($arg)+));
             }
         }
     };
