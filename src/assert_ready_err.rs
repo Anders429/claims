@@ -69,7 +69,7 @@ macro_rules! assert_ready_err {
         match $cond {
             core::task::Poll::Ready(Err(e)) => e,
             ok_or_pending => {
-                panic!("assertion failed, expected Ready(Err(..)), got {:?}", ok_or_pending);
+                panic!("assertion failed, expected Ready(Err(_)), got {:?}", ok_or_pending);
             }
         }
     };
@@ -77,7 +77,7 @@ macro_rules! assert_ready_err {
         match $cond {
             core::task::Poll::Ready(Err(e)) => e,
             ok_or_pending => {
-                panic!("assertion failed, expected Ready(Err(..)), got {:?}: {}", ok_or_pending, format_args!($($arg)+));
+                panic!("assertion failed, expected Ready(Err(_)), got {:?}: {}", ok_or_pending, format_args!($($arg)+));
             }
         }
     };
@@ -92,4 +92,90 @@ macro_rules! assert_ready_err {
 #[macro_export]
 macro_rules! debug_assert_ready_err {
     ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_ready_err!($($arg)*); })
+}
+
+#[cfg(test)]
+mod tests {
+    use core::task::Poll::{Pending, Ready};
+
+    #[test]
+    fn ready_err() {
+        assert_ready_err!(Ready(Err::<(), _>(())));
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Ready(Ok(()))")]
+    fn ready_ok() {
+        assert_ready_err!(Ready(Ok::<_, ()>(())));
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Pending")]
+    fn not_ready() {
+        assert_ready_err!(Pending::<Result<(), ()>>);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Ready(Ok(())): foo")]
+    fn ready_ok_custom_message() {
+        assert_ready_err!(Ready(Ok::<_, ()>(())), "foo");
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Pending: foo")]
+    fn not_ready_custom_message() {
+        assert_ready_err!(Pending::<Result<(), ()>>, "foo");
+    }
+
+    #[test]
+    fn ready_err_value_returned() {
+        let value = assert_ready_err!(Ready(Err::<(), _>(42)));
+        assert_eq!(value, 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_ready_err() {
+        debug_assert_ready_err!(Ready(Err::<(), _>(())));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Ready(Ok(()))")]
+    fn debug_ready_ok() {
+        debug_assert_ready_err!(Ready(Ok::<_, ()>(())));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Pending")]
+    fn debug_not_ready() {
+        debug_assert_ready_err!(Pending::<Result<(), ()>>);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Ready(Ok(())): foo")]
+    fn debug_ready_ok_custom_message() {
+        debug_assert_ready_err!(Ready(Ok::<_, ()>(())), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ready(Err(_)), got Pending: foo")]
+    fn debug_not_ready_custom_message() {
+        debug_assert_ready_err!(Pending::<Result<(), ()>>, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_ready_ok() {
+        debug_assert_ready_err!(Ready(Ok::<_, ()>(())));
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_ready() {
+        debug_assert_ready_err!(Pending::<Result<(), ()>>);
+    }
 }

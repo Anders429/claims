@@ -68,7 +68,7 @@ macro_rules! assert_pending {
         match $cond {
             pending @ core::task::Poll::Pending => pending,
             ready @ core::task::Poll::Ready(_) => {
-                panic!("assertion failed, expected Pending, got {:?}", format_args!($($arg)+));
+                panic!("assertion failed, expected Pending, got {:?}: {}", ready, format_args!($($arg)+));
             }
         }
     };
@@ -82,5 +82,58 @@ macro_rules! assert_pending {
 /// [`Poll::Pending`]: https://doc.rust-lang.org/core/task/enum.Poll.html#variant.Pending
 #[macro_export]
 macro_rules! debug_assert_pending {
-    ($($arg:tt)*) => (if core::cfg!(debug_assertions) { $crate::assert_pending!($($arg)*); })
+    ($($arg:tt)*) => {
+        #[allow(unused_must_use)]
+        if core::cfg!(debug_assertions) {
+            $crate::assert_pending!($($arg)*);
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use core::task::Poll::{Pending, Ready};
+
+    #[test]
+    fn pending() {
+        let _ = assert_pending!(Pending::<()>);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Pending, got Ready(())")]
+    fn not_pending() {
+        let _ = assert_pending!(Ready(()));
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected Pending, got Ready(()): foo")]
+    fn not_pending_custom_message() {
+        let _ = assert_pending!(Ready(()), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_pending() {
+        debug_assert_pending!(Pending::<()>);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Pending, got Ready(())")]
+    fn debug_not_pending() {
+        debug_assert_pending!(Ready(()));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Pending, got Ready(()): foo")]
+    fn debug_not_pending_custom_message() {
+        debug_assert_pending!(Ready(()), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_pending() {
+        debug_assert_pending!(Ready(()));
+    }
 }

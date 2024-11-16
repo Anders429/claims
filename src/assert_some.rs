@@ -44,7 +44,7 @@ macro_rules! assert_some {
         match $cond {
             Some(t) => t,
             None => {
-                panic!("assertion failed, expected Some(..), got None");
+                panic!("assertion failed, expected Some(_), got None");
             }
         }
     };
@@ -52,7 +52,7 @@ macro_rules! assert_some {
         match $cond {
             Some(t) => t,
             None => {
-                panic!("assertion failed, expected Some(..), got None: {}", format_args!($($arg)+));
+                panic!("assertion failed, expected Some(_), got None: {}", format_args!($($arg)+));
             }
         }
     };
@@ -72,32 +72,69 @@ macro_rules! debug_assert_some {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[should_panic(expected = "assertion failed, expected Some(..), got None")]
-    fn default_panic_message() {
-        let maybe: Option<i32> = None;
-        let _ = assert_some!(maybe);
+    fn some() {
+        assert_some!(Some(()));
     }
 
     #[test]
-    #[should_panic(
-        expected = "assertion failed, expected Some(..), got None: we are checking if there was an error with None"
-    )]
-    fn custom_panic_message() {
-        let maybe: Option<i32> = None;
-        let _ = assert_some!(
-            maybe,
-            "we are checking if there was an error with {:?}",
-            maybe
-        );
+    #[should_panic(expected = "assertion failed, expected Some(_), got None")]
+    fn not_some() {
+        assert_some!(None::<()>);
     }
 
     #[test]
-    fn does_not_require_some_debug() {
+    #[should_panic(expected = "assertion failed, expected Some(_), got None: foo")]
+    fn not_some_custom_message() {
+        assert_some!(None::<()>, "foo");
+    }
+
+    #[test]
+    fn some_value_returned() {
+        let value = assert_some!(Some(42));
+        assert_eq!(value, 42);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_some() {
+        debug_assert_some!(Some(()));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Some(_), got None")]
+    fn debug_not_some() {
+        debug_assert_some!(None::<()>);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Some(_), got None: foo")]
+    fn debug_not_some_custom_message() {
+        debug_assert_some!(None::<()>, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_some() {
+        debug_assert_some!(None::<()>);
+    }
+
+    #[test]
+    fn does_not_require_some_to_impl_debug() {
         enum Foo {
             Bar,
         }
 
-        let res: Option<Foo> = Some(Foo::Bar);
-        let _ = assert_some!(res);
+        assert_some!(Some(Foo::Bar));
+    }
+
+    #[test]
+    fn debug_does_not_require_some_to_impl_debug() {
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_some!(Some(Foo::Bar));
     }
 }

@@ -8,6 +8,9 @@
 - Improved error messages.
 ### Fixed
 - Corrected the name of `debug_assert_ready_ok_eq!` to `debug_assert_ready_eq!`.
+- `assert_pending!` and `debug_assert_pending!` now correctly display custom messages.
+- `assert_ready!` and `debug_assert_ready!` now correctly display custom messages.
+- `debug_assert_pending!` no longer emits warnings for unused values.
 ### Removed
 - Dependency on `autocfg`.
 

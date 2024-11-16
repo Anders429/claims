@@ -56,7 +56,7 @@ macro_rules! assert_ok {
         match $cond {
             Ok(t) => t,
             Err(e) => {
-                panic!("assertion failed, expected Ok(..), got Err({:?})", e);
+                panic!("assertion failed, expected Ok(_), got Err({:?})", e);
             }
         }
     };
@@ -64,7 +64,7 @@ macro_rules! assert_ok {
         match $cond {
             Ok(t) => t,
             Err(e) => {
-                panic!("assertion failed, expected Ok(..), got Err({:?}): {}", e, format_args!($($arg)+));
+                panic!("assertion failed, expected Ok(_), got Err({:?}): {}", e, format_args!($($arg)+));
             }
         }
     };
@@ -84,28 +84,68 @@ macro_rules! debug_assert_ok {
 #[cfg(test)]
 mod tests {
     #[test]
-    #[should_panic(expected = "assertion failed, expected Ok(..), got Err(())")]
-    fn default_panic_message() {
-        let res = Err(());
-        assert_ok!(res);
+    fn ok() {
+        assert_ok!(Ok::<_, ()>(()));
     }
 
     #[test]
-    #[should_panic(
-        expected = "assertion failed, expected Ok(..), got Err(()): Everything is good with Err(())"
-    )]
-    fn custom_panic_message() {
-        let res = Err(());
-        assert_ok!(res, "Everything is good with {:?}", res);
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(())")]
+    fn not_ok() {
+        assert_ok!(Err::<(), _>(()));
     }
 
     #[test]
-    fn does_not_require_ok_debug() {
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(()): foo")]
+    fn not_ok_custom_message() {
+        assert_ok!(Err::<(), _>(()), "foo");
+    }
+
+    #[test]
+    fn ok_value_returned() {
+        let value = assert_ok!(Ok::<_, ()>(42));
+        assert_eq!(value, 42);
+    }
+
+    #[test]
+    fn debug_ok() {
+        debug_assert_ok!(Ok::<_, ()>(()));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(())")]
+    fn debug_not_ok() {
+        debug_assert_ok!(Err::<(), _>(()));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected Ok(_), got Err(()): foo")]
+    fn debug_not_ok_custom_message() {
+        debug_assert_ok!(Err::<(), _>(()), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_ok() {
+        debug_assert_ok!(Err::<(), _>(()));
+    }
+
+    #[test]
+    fn does_not_require_ok_to_impl_debug() {
         enum Foo {
             Bar,
         }
 
-        let res: Result<Foo, ()> = Ok(Foo::Bar);
-        let _ = assert_ok!(res);
+        assert_ok!(Ok::<_, ()>(Foo::Bar));
+    }
+
+    #[test]
+    fn debug_does_not_require_ok_to_impl_debug() {
+        enum Foo {
+            Bar,
+        }
+
+        debug_assert_ok!(Ok::<_, ()>(Foo::Bar));
     }
 }

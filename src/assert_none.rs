@@ -67,3 +67,49 @@ macro_rules! assert_none {
 macro_rules! debug_assert_none {
     ($($arg:tt)*) => (if cfg!(debug_assertions) { $crate::assert_none!($($arg)*); })
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn none() {
+        assert_none!(None::<()>);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected None, got Some(())")]
+    fn not_none() {
+        assert_none!(Some(()));
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed, expected None, got Some(()): foo")]
+    fn not_none_custom_message() {
+        assert_none!(Some(()), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_none() {
+        debug_assert_none!(None::<()>);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected None, got Some(())")]
+    fn debug_not_none() {
+        debug_assert_none!(Some(()));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed, expected None, got Some(()): foo")]
+    fn debug_not_none_custom_message() {
+        debug_assert_none!(Some(()), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_none() {
+        debug_assert_none!(Some(()));
+    }
+}
