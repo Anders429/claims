@@ -78,3 +78,89 @@ macro_rules! debug_assert_gt {
         $crate::assert_gt!($($arg)*);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn greater_than() {
+        assert_gt!(5, 3);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed: `(left > right)`\n    left: `3`,\n    right: `3`")]
+    fn equal() {
+        assert_gt!(3, 3);
+    }
+
+    #[test]
+    #[should_panic(expected = "assertion failed: `(left > right)`\n    left: `1`,\n    right: `3`")]
+    fn less_than() {
+        assert_gt!(1, 3);
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed: `(left > right)`\n    left: `3`,\n    right: `3`: foo"
+    )]
+    fn equal_custom_message() {
+        assert_gt!(3, 3, "foo");
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed: `(left > right)`\n    left: `1`,\n    right: `3`: foo"
+    )]
+    fn less_than_custom_message() {
+        assert_gt!(1, 3, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_greater_than() {
+        debug_assert_gt!(5, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed: `(left > right)`\n    left: `3`,\n    right: `3`")]
+    fn debug_equal() {
+        debug_assert_gt!(3, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(expected = "assertion failed: `(left > right)`\n    left: `1`,\n    right: `3`")]
+    fn debug_less_than() {
+        debug_assert_gt!(1, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed: `(left > right)`\n    left: `3`,\n    right: `3`: foo"
+    )]
+    fn debug_equal_custom_message() {
+        debug_assert_gt!(3, 3, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed: `(left > right)`\n    left: `1`,\n    right: `3`: foo"
+    )]
+    fn debug_less_than_custom_message() {
+        debug_assert_gt!(1, 3, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_equal() {
+        debug_assert_gt!(3, 3);
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_less_than() {
+        debug_assert_gt!(1, 3);
+    }
+}

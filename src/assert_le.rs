@@ -78,3 +78,68 @@ macro_rules! debug_assert_le {
         $crate::assert_le!($($arg)*);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    #[should_panic(
+        expected = "assertion failed: `(left <= right)`\n    left: `5`,\n    right: `3`"
+    )]
+    fn greater_than() {
+        assert_le!(5, 3);
+    }
+
+    #[test]
+    fn equal() {
+        assert_le!(3, 3);
+    }
+
+    #[test]
+    fn less_than() {
+        assert_le!(1, 3);
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed: `(left <= right)`\n    left: `5`,\n    right: `3`: foo"
+    )]
+    fn greater_than_custom_message() {
+        assert_le!(5, 3, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed: `(left <= right)`\n    left: `5`,\n    right: `3`"
+    )]
+    fn debug_greater_than() {
+        debug_assert_le!(5, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_equal() {
+        debug_assert_le!(3, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_less_than() {
+        debug_assert_le!(1, 3);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed: `(left <= right)`\n    left: `5`,\n    right: `3`: foo"
+    )]
+    fn debug_greater_than_custom_message() {
+        debug_assert_le!(5, 3, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_greater_than() {
+        debug_assert_le!(5, 3);
+    }
+}
