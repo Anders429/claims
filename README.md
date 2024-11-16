@@ -4,7 +4,7 @@
 [![docs.rs](https://docs.rs/claims/badge.svg)](https://docs.rs/claims)
 [![Build Status](https://github.com/Anders429/claims/workflows/Continuous%20Integration/badge.svg)](https://github.com/Anders429/claims/actions)
 [![License](https://img.shields.io/crates/l/claims)](#license)
-[![MSRV](https://img.shields.io/badge/rustc-1.36.0+-yellow.svg)](#minimum-supported-rust-version)
+[![MSRV](https://img.shields.io/badge/rustc-1.38.0+-yellow.svg)](#minimum-supported-rust-version)
 
 Additional assertion macros for testing.
 
@@ -30,7 +30,7 @@ claims = "0.7"
 Check out the [documentation](https://docs.rs/claims) for available macros and examples.
 
 ## Minimum Supported Rust Version
-This crate is guaranteed to compile on stable `rustc 1.36.0` and up.
+This crate is guaranteed to compile on stable `rustc 1.38.0` and up.
 
 ## License
 

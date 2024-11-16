@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         rust:
-          - 1.36.0
+          - 1.38.0
           - 1.53.0
           - stable
           - beta
@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         rust:
-          - 1.36.0
+          - 1.38.0
           - 1.53.0
           - stable
           - beta
@@ -55,7 +55,7 @@ jobs:
       fail-fast: false
       matrix:
         rust:
-          - 1.36.0
+          - 1.38.0
           - stable
           - beta
           - nightly
