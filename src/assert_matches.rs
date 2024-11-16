@@ -39,22 +39,24 @@
 #[macro_export]
 macro_rules! assert_matches {
     ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)? $(,)?) => {
+        #[allow(unreachable_patterns)]
         match $expression {
             $($pattern)|+ $(if $guard)? => {},
             other => {
-                panic!(r#"assertion failed, expression does not match any of the given variants.
+                panic!(r#"assertion failed, expression does not match the given pattern.
     expression: {:?}
-    variants: {}"#, other, stringify!($($pattern)|+));
+    pattern: {}"#, other, stringify!($($pattern)|+ $(if $guard)?));
             }
         }
     };
     ($expression:expr, $($pattern:pat)|+ $(if $guard:expr)?, $($arg:tt)+) => {
+        #[allow(unreachable_patterns)]
         match $expression {
             $($pattern)|+ $(if $guard)? => {},
             other => {
-                panic!(r#"assertion failed, expression does not match any of the given variants.
+                panic!(r#"assertion failed, expression does not match the given pattern.
     expression: {:?}
-    variants: {}: {}"#, other, stringify!($($pattern)|+), format_args!($($arg)+));
+    pattern: {}: {}"#, other, stringify!($($pattern)|+ $(if $guard)?), format_args!($($arg)+));
             }
         }
     };
@@ -70,5 +72,162 @@ macro_rules! debug_assert_matches {
     ($($arg:tt)*) => {
         #[cfg(debug_assertions)]
         $crate::assert_matches!($($arg)*);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[allow(dead_code)]
+    #[derive(Debug)]
+    enum Foo {
+        Bar(usize),
+        Baz(usize),
+    }
+
+    #[test]
+    fn matches() {
+        assert_matches!(Foo::Bar(42), Foo::Bar(_));
+    }
+
+    #[test]
+    fn matches_multiple_variants() {
+        assert_matches!(Foo::Baz(42), Foo::Bar(_) | Foo::Baz(_));
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Baz(_)"
+    )]
+    fn not_matches() {
+        assert_matches!(Foo::Bar(42), Foo::Baz(_));
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Baz(_): foo"
+    )]
+    fn not_matches_custom_message() {
+        assert_matches!(Foo::Bar(42), Foo::Baz(_), "foo");
+    }
+
+    #[test]
+    fn matches_if_guard() {
+        assert_matches!(Foo::Bar(42), Foo::Bar(x) if x < 100);
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Bar(x) if x > 100"
+    )]
+    fn not_matches_if_guard() {
+        assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100);
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Bar(x) if x > 100: foo"
+    )]
+    fn not_matches_if_guard_custom_message() {
+        assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100, "foo");
+    }
+
+    #[test]
+    fn matches_nested_pattern() {
+        assert_matches!(Some(Foo::Bar(42)), Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
+    }
+
+    #[test]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: None\n    pattern: Some(Foo::Bar(_) | Foo::Baz(1 | 2))"
+    )]
+    fn not_matches_nested_pattern() {
+        assert_matches!(None, Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_matches() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Bar(_));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_matches_multiple_variants() {
+        debug_assert_matches!(Foo::Baz(42), Foo::Bar(_) | Foo::Baz(_));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Baz(_)"
+    )]
+    fn debug_not_matches() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Baz(_));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Baz(_): foo"
+    )]
+    fn debug_not_matches_custom_message() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Baz(_), "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_matches_if_guard() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x < 100);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Bar(x) if x > 100"
+    )]
+    fn debug_not_matches_if_guard() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100);
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: Bar(42)\n    pattern: Foo::Bar(x) if x > 100: foo"
+    )]
+    fn debug_not_matches_if_guard_custom_message() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100, "foo");
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    fn debug_matches_nested_pattern() {
+        debug_assert_matches!(Some(Foo::Bar(42)), Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
+    }
+
+    #[test]
+    #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
+    #[should_panic(
+        expected = "assertion failed, expression does not match the given pattern.\n    expression: None\n    pattern: Some(Foo::Bar(_) | Foo::Baz(1 | 2))"
+    )]
+    fn debug_not_matches_nested_pattern() {
+        debug_assert_matches!(None, Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_matches() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Baz(_));
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_matches_if_guard() {
+        debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100);
+    }
+
+    #[test]
+    #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
+    fn debug_release_not_matches_nested_pattern() {
+        debug_assert_matches!(None, Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
     }
 }

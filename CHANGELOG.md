@@ -11,6 +11,8 @@
 - `assert_pending!` and `debug_assert_pending!` now correctly display custom messages.
 - `assert_ready!` and `debug_assert_ready!` now correctly display custom messages.
 - `debug_assert_pending!` no longer emits warnings for unused values.
+- `assert_matches!` and `debug_assert_matches!` no longer emit warnings if the given pattern covers all cases.
+- `assert_matches!` and `debug_assert_matches!` now include `if` guard in the pattern in the error message.
 - Fixed `debug_*` macros to work on Rust versions back to `rustc 1.36.0`.
 ### Removed
 - Dependency on `autocfg`.
