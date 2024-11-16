@@ -131,11 +131,13 @@ mod tests {
         assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100, "foo");
     }
 
+    #[rustversion::since(1.53)]
     #[test]
     fn matches_nested_pattern() {
         assert_matches!(Some(Foo::Bar(42)), Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
     }
 
+    #[rustversion::since(1.53)]
     #[test]
     #[should_panic(
         expected = "assertion failed, expression does not match the given pattern.\n    expression: None\n    pattern: Some(Foo::Bar(_) | Foo::Baz(1 | 2))"
@@ -198,12 +200,14 @@ mod tests {
         debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100, "foo");
     }
 
+    #[rustversion::since(1.53)]
     #[test]
     #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
     fn debug_matches_nested_pattern() {
         debug_assert_matches!(Some(Foo::Bar(42)), Some(Foo::Bar(_) | Foo::Baz(1 | 2)));
     }
 
+    #[rustversion::since(1.53)]
     #[test]
     #[cfg_attr(not(debug_assertions), ignore = "only run in debug mode")]
     #[should_panic(
@@ -225,6 +229,7 @@ mod tests {
         debug_assert_matches!(Foo::Bar(42), Foo::Bar(x) if x > 100);
     }
 
+    #[rustversion::since(1.53)]
     #[test]
     #[cfg_attr(debug_assertions, ignore = "only run in release mode")]
     fn debug_release_not_matches_nested_pattern() {

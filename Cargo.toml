@@ -12,3 +12,6 @@ edition = "2018"
 
 [package.metadata]
 msrv = "1.36.0"
+
+[dev-dependencies]
+rustversion = "1.0.18"
